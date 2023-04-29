@@ -4,6 +4,10 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
+<script type="text/javascript">
+
+
+</script>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,23 +19,6 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="/resources/sbadmin/css/sb-admin-2.min.css" rel="stylesheet">
 </head>
-	<script type="text/javascript">
-    function check(){
-	    if(document.getElementById("id").value==""){
-	       alert("아이디가 누락되었습니다.");
-	       return false;
-	    }
-	    if(document.getElementById("pw").value==""){
-	       alert("비밀번호가 누락되었습니다.");
-	       return false;
-	    }
-	    if(document.getElementById("name").value==""){
-	       alert("이름이 누락되었습니다.");
-	       return false;
-	    }
-	    frm.submit();
-		}
-	</script>
 <body id="page-top">
     <div id="wrapper">
 		<%@ include file="/include/header.jsp" %>

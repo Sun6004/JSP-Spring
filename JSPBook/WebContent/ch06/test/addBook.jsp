@@ -16,7 +16,7 @@
 			<a href="logout.jsp" class="btn btn-sm btn-success pull-right">logout</a>  
 		</div>	
 		
-		<form name="newBook" action="./processAddBook.jsp" class="form-horizontal" method="post">
+		<form name="newBook" action="./processAddBook.jsp" class="form-horizontal" method="post" enctype="multipart/form-data">
 			<div class="form-group row">
 				<label class="col-sm-2">도서코드</label>
 				<div class="col-sm-3">
@@ -94,7 +94,7 @@
 			</div>
 			<div class="form-group row">
 				<div class="col-sm-offset-2 col-sm-10 ">
-					<input type="button" class="btn btn-primary" value="등록" onclick="CheckAddBook()">
+					<input type="submit" class="btn btn-primary" value="등록" onclick="CheckAddBook()">
 				</div>
 			</div>
 		</form>

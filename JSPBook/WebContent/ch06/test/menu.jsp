@@ -3,6 +3,7 @@
 	<div class="container">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="books.jsp">HOME</a>
-		</div>
+			<a href="./addBook.jsp" class="btn btn-secondary" role="button">도서등록</a>
+		</div>	
 	</div>
 </nav>

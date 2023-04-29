@@ -1,3 +1,5 @@
+<%@page import="java.util.Map"%>
+<%@page import="java.util.HashMap"%>
 <%@page import="java.util.Enumeration"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.Date"%>
@@ -8,6 +10,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -77,12 +80,15 @@
                               		<p>ID: ${id} </p>
                               		<p>PassWord: ${pw} </p>
                               		<p>name: ${name} </p>
-                              		
+                              		<%
+//                               		Map<String, String> errors = new HashMap<String, String>();
+//                               		if(id.equals("")){
+//                               			error.put(",""아이디가 누락되었습니다!");
+//                               		}
+                              		%>                           		
                               		<c:if test="${empty id or empty pw or empty name}">
-									    <script>
-									    
-									        //alert("아이디, 비번, 이름을 모두 입력해주세요!");
-									        //location.href = "ch06_test.jsp?msg=아이디, 비번, 이름을 모두 입력해주세요!";
+									    <script>									    
+									        alert("아이디, 비번, 이름을 모두 입력해주세요!");
 									    </script>
 									</c:if>
                               		
