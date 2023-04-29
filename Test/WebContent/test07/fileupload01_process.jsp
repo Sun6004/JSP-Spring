@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <%
 	String filePath = request.getServletContext().getRealPath("/resources/images");
-	MultipartRequest mult = new MultipartRequest(request,filePath, 5*1024*1024, "utf-8" );
+	MultipartRequest mult = new MultipartRequest(request,filePath, 5*1024*1024, "utf-8");
 	Enumeration params = mult.getParameterNames();
 	
 	while(params.hasMoreElements()){
