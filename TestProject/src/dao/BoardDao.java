@@ -1,0 +1,18 @@
+package dao;
+
+import java.util.List;
+
+import vo.BoardVO;
+import vo.MemberVO;
+
+public interface BoardDao {
+	public List<MemberVO> memberList();
+	
+	public int addMem(MemberVO vo);
+	
+	public List<BoardVO> boardList();
+	
+	public int addBoard(BoardVO vo);
+	
+	public int delBoard(BoardVO vo);
+}
