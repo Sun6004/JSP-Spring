@@ -9,7 +9,7 @@
 <body>
 	<h2>회원가입</h2>
 		<div>
-		<form action="signin.do" method="post" name="loginForm" id="signinform" onsubmit="return CheckSignIn()">
+		<form action="../src/controller/signIn.do" method="post" id="signinform">
 			아이디: <input type="text" name="id"> <br>
 			비밀번호: <input type="text" name="pw"> <br>
 			이름: <input type="text" name="name"> <br>
