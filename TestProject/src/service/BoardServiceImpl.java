@@ -20,7 +20,7 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<MemberVO> memberList() {
+	public List<MemberVO> memberList(MemberVO vo) {
 		// TODO Auto-generated method stub
 		return dao.memberList();
 	}
@@ -47,6 +47,11 @@ public class BoardServiceImpl implements BoardService{
 	public int delBoard(BoardVO vo) {
 		// TODO Auto-generated method stub
 		return dao.delBoard(vo);
+	}
+	@Override
+	public MemberVO getMember(MemberVO vo) {
+		// TODO Auto-generated method stub
+		return dao.getMember(vo);
 	}
 
 }

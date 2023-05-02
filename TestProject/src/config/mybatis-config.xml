@@ -5,7 +5,7 @@
 	"http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<!-- DB연결 정보가 저장된 properties파일 정보 설정하기 -->
-	<properties resource="kr/or/ddit/config/dbinfo.properties"></properties>
+	<properties resource="config/dbinfo.properties"></properties>
 	
 	<!-- 기본 설정 셋팅 -->
 	<settings>

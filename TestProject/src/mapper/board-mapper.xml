@@ -9,8 +9,12 @@
 		select * from member
 	</select>
 	
+	<select id="getMember" resultType="memberVo" parameterType="memberVo">
+		select * from member where mem_id = ${mem_id} and mem_pw = ${mem_pw}
+	</select>
+	
 	<insert id="addMem" parameterType="memberVo">
-		insert into member values (seq_member.nextval, mem_id = ${id}, mem_pw =  ${pw}, sysdate)
+		insert into member values (seq_member.nextval, mem_id = ${id}, mem_pw =  ${pw}, sysdate, mem_name ={name})
 	</insert>
 	
 	<select id="boardList" resultType="boardVo" >
@@ -24,4 +28,5 @@
 	<delete id="delBoard" parameterType="boardVo">
 		delete from board where bo_writer = ${id};
 	</delete>
+	
 </mapper>

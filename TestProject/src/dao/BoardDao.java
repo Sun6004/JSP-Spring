@@ -8,6 +8,8 @@ import vo.MemberVO;
 public interface BoardDao {
 	public List<MemberVO> memberList();
 	
+	public MemberVO getMember(MemberVO vo);
+	
 	public int addMem(MemberVO vo);
 	
 	public List<BoardVO> boardList();
@@ -15,4 +17,6 @@ public interface BoardDao {
 	public int addBoard(BoardVO vo);
 	
 	public int delBoard(BoardVO vo);
+	
+	
 }

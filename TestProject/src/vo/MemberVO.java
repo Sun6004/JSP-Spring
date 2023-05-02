@@ -5,6 +5,7 @@ public class MemberVO {
 	private String mem_id;
 	private String mem_pw;
 	private String mem_regdate;
+	private String mem_name;
 	
 	public int getMem_no() {
 		return mem_no;
@@ -30,6 +31,13 @@ public class MemberVO {
 	public void setMem_regdate(String mem_regdate) {
 		this.mem_regdate = mem_regdate;
 	}
+	public String getMem_name() {
+		return mem_name;
+	}
+	public void setMem_name(String mem_name) {
+		this.mem_name = mem_name;
+	}
+	
 	@Override
 	public String toString() {
 		return "MemberVO [mem_no=" + mem_no + ", mem_id=" + mem_id + ", mem_pw=" + mem_pw + ", mem_regdate="

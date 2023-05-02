@@ -6,7 +6,9 @@ import vo.BoardVO;
 import vo.MemberVO;
 
 public interface BoardService {
-	public List<MemberVO> memberList();
+	public List<MemberVO> memberList(MemberVO vo);
+	
+	public MemberVO getMember(MemberVO vo);
 	
 	public int addMem(MemberVO vo);
 	

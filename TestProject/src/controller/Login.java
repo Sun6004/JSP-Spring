@@ -31,20 +31,18 @@ public class Login extends HttpServlet {
 		vo.setMem_pw(memPw);
 	
 		BoardService service = BoardServiceImpl.getInstance();
-		MemberVO res = service.getMember(memId, memPw);
+		MemberVO res = service.getMember(vo);
+		System.out.println("아이디 체크: " +res.getMem_id());
 		
 		if (res != null) {
-		    // 로그인 성공
+		    // 로그인 성공 
 		    HttpSession session = request.getSession();
 		    session.setAttribute("memberVo", res);
-		    session.setMaxInactiveInterval(10 * 60);
+		    response.sendRedirect("../board/board.jsp");
 		} else {
-		    // 로그인 실패
-		    // TODO: 실패 처리 코드 작성
+			response.sendRedirect("../board/login.jsp");
 		}
-			
-	   
-
+	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
