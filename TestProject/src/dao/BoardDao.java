@@ -10,6 +10,8 @@ public interface BoardDao {
 	
 	public MemberVO getMember(MemberVO vo);
 	
+	public BoardVO boardDetail(String writer);
+	
 	public int addMem(MemberVO vo);
 	
 	public List<BoardVO> boardList();

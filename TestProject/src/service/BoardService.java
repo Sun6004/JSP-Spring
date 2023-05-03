@@ -17,4 +17,6 @@ public interface BoardService {
 	public int addBoard(BoardVO vo);
 	
 	public int delBoard(BoardVO vo);
+	
+	public BoardVO boardDetail(String writer);
 }

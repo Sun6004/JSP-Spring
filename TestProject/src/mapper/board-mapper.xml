@@ -13,6 +13,10 @@
 		select * from member where mem_id = ${mem_id} and mem_pw = ${mem_pw}
 	</select>
 	
+	<select id="boardDetail" resultType="boardVo" parameterType="String">
+		select * from board where bo_writer = ${bo_writer}
+	</select>
+	
 	<insert id="addMem" parameterType="memberVo">
 		insert into member values (seq_member.nextval, mem_id = ${id}, mem_pw =  ${pw}, sysdate, mem_name ={name})
 	</insert>

@@ -38,9 +38,9 @@ public class Login extends HttpServlet {
 		    // 로그인 성공 
 		    HttpSession session = request.getSession();
 		    session.setAttribute("memberVo", res);
-		    response.sendRedirect("../board/board.jsp");
+		    response.sendRedirect("/boardList.do");    
 		} else {
-			response.sendRedirect("../board/login.jsp");
+			request.getRequestDispatcher("/board/login.jsp").forward(request, response);
 		}
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

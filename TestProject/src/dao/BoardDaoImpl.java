@@ -113,5 +113,20 @@ public class BoardDaoImpl implements BoardDao{
 		}
 		return res;
 	}
+	@Override
+	public BoardVO boardDetail(String writer) {
+		SqlSession session = null;
+		BoardVO res = null;
+		try {
+			session = MybatisSqlSessionFactory.getSqlSession();
+			res = session.selectOne("board.boardDetail", writer);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.commit();
+			if(session != null) session.close();
+		}
+		return res;
+	}
 	
 }

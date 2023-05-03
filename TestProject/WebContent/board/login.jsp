@@ -8,13 +8,12 @@
 </head>
 <body>
 	<h2>로그인</h2>
-		<form action="<%=request.getContextPath() %>/src/controller/login.do" method="post" name="loginForm" id="loginForm" onsubmit="return CheckLogin()">
-		아이디: <input type="text" name="id"> <br>
-		비밀번호: <input type="text" name="pw"> <br>
-		<input type="submit" value="로그인">
-		<a href="./signin.jsp"><input type="button" value="회원가입"> </a>
-	</form>
-</form>
+		<form action="/login.do" method="post" name="loginForm" id="loginForm">
+			아이디: <input type="text" name="id"> <br>
+			비밀번호: <input type="text" name="pw"> <br>
+			<input type="submit" value="로그인">
+			<a href="./signin.jsp"><input type="button" value="회원가입"> </a>
+		</form>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script type="text/javascript">

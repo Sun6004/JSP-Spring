@@ -6,6 +6,7 @@ public class BoardVO {
 	private String bo_content;
 	private String bo_writer;
 	private int bo_hit;
+	private String bo_date;
 	
 	public int getBo_no() {
 		return bo_no;
@@ -41,5 +42,11 @@ public class BoardVO {
 	public String toString() {
 		return "BoardVO [bo_no=" + bo_no + ", bo_title=" + bo_title + ", bo_content=" + bo_content + ", bo_writer="
 				+ bo_writer + ", bo_hit=" + bo_hit + "]";
+	}
+	public String getBo_date() {
+		return bo_date;
+	}
+	public void setBo_date(String bo_date) {
+		this.bo_date = bo_date;
 	}
 }
