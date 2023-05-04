@@ -24,7 +24,8 @@ public class Login extends HttpServlet {
 		
 		String memId = request.getParameter("id");
 		String memPw = request.getParameter("pw");
-		
+		System.out.println(memId);
+		System.out.println(memPw);
 		MemberVO vo = new MemberVO();
 	
 		vo.setMem_id(memId);
@@ -32,16 +33,16 @@ public class Login extends HttpServlet {
 	
 		BoardService service = BoardServiceImpl.getInstance();
 		MemberVO res = service.getMember(vo);
+		
 		System.out.println("아이디 체크: " +res.getMem_id());
 		
 		if (res != null) {
 		    // 로그인 성공 
-		    HttpSession session = request.getSession();
-		    session.setAttribute("memberVo", res);
-		    response.sendRedirect("/boardList.do");    
-		} else {
-			request.getRequestDispatcher("/board/login.jsp").forward(request, response);
-		}
+			HttpSession session = request.getSession();
+			session.setAttribute("memberVo", res);
+			response.sendRedirect("/boardList.do");    
+		} 
+		request.getRequestDispatcher("/WEB-INF/views/board/login.jsp").forward(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub

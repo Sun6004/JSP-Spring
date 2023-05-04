@@ -20,5 +20,5 @@ public interface BoardDao {
 	
 	public int delBoard(BoardVO vo);
 	
-	
+	public int updateBoard(BoardVO vo);
 }

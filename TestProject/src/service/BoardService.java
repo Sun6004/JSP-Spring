@@ -19,4 +19,6 @@ public interface BoardService {
 	public int delBoard(BoardVO vo);
 	
 	public BoardVO boardDetail(String writer);
+	
+	public int updateBoard(BoardVO vo);
 }

@@ -25,13 +25,14 @@ public class DelBoard extends HttpServlet {
 		HttpSession session = request.getSession();
 		MemberVO vo = (MemberVO) session.getAttribute("memVo");
 		
+		int no = Integer.parseInt(request.getParameter("no")); 
 		BoardVO vo2 = new BoardVO();
-		vo2.setBo_writer(vo.getMem_id());
+		vo2.setBo_no(no);
 		
 		BoardService service = BoardServiceImpl.getInstance();
 		service.delBoard(vo2);
 		
-		response.sendRedirect(request.getContextPath()+"/board/boardList.jsp");
+		response.sendRedirect(request.getContextPath()+"/views/board/boardList.jsp");
 	}
 
 	/**

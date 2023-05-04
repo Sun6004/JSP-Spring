@@ -26,11 +26,15 @@
 	</select>
 	
 	<insert id="addBoard" parameterType="boardVo">
-		insert into board values (seq_board.nextval, bo_title = ${title}, bo_content = ${content}, bo_writer = ${id} ,0 )
+		insert into board lvalues (seq_board.nextval, bo_title = ${title}, bo_content = ${content}, bo_writer = ${id} ,0 )
 	</insert>
 	
 	<delete id="delBoard" parameterType="boardVo">
-		delete from board where bo_writer = ${id};
+		delete from board where bo_no = ${no};
 	</delete>
+	
+	<update id="updateBoard" parameterType="boardVo">
+		  update board set bo_title = #{title}, bo_content = #{content} where bo_no = #{no}
+	</update>
 	
 </mapper>

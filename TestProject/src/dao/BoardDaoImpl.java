@@ -128,5 +128,20 @@ public class BoardDaoImpl implements BoardDao{
 		}
 		return res;
 	}
+	@Override
+	public int updateBoard(BoardVO vo) {
+		SqlSession session = null;
+		int res = 0;
+		try {
+			session = MybatisSqlSessionFactory.getSqlSession();
+			res = session.update("board.updateBoard", vo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.commit();
+			if(session != null) session.close();
+		}
+		return res;
+	}
 	
 }
