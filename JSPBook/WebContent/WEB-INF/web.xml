@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
+  <display-name>JSPBook</display-name>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <!--기본 인증 처리 방법으로 보안 처리하기 -->
+<!--   <security-role> -->
+<!--   	<role-name>role1 </role-name> -->
+<!--   </security-role> -->
+  
+<!--   <security-constraint> -->
+<!--   	<web-resource-collection> -->
+<!--   		<web-resource-name>JSPBook</web-resource-name> -->
+<!--   		<url-pattern>/ch10/security01.jsp</url-pattern> -->
+<!--   		<http-method>GET</http-method> -->
+<!--   	</web-resource-collection> -->
+<!-- 	  <auth-constraint> -->
+<!--       <description>기본 인증처리방법(시큐리티)</description> -->
+<!--       <role-name>role1</role-name> -->
+<!--     </auth-constraint> -->
+<!--   </security-constraint> -->
+<!--   <login-config> -->
+<!--     <auth-method>BASIC</auth-method> -->
+<!--   </login-config> -->
+  
+  
+  
+  <!-- ch10 폼 기반 인증처리 방법으로 보안 처리하기 -->
+<!--   <security-role> -->
+<!--   	<role-name>role1</role-name> -->
+<!--   </security-role> -->
+<!--   <security-constraint> -->
+<!--   	<web-resource-collection> -->
+<!--   		<web-resource-name>JSPBook</web-resource-name> -->
+<!--   		<url-pattern>/ch10/security01.jsp</url-pattern> -->
+<!--   		<http-method>GET</http-method> -->
+<!--   	</web-resource-collection> -->
+<!--   	<auth-constraint> -->
+<!--   		<description>폼 기반 인증 처리 방법(시큐리티)</description> -->
+<!--   		<role-name>role1</role-name> -->
+<!--   	</auth-constraint> -->
+<!--   </security-constraint> -->
+<!--   <login-config> -->
+<!--   	<auth-method>FORM</auth-method> -->
+<!--   	<form-login-config> -->
+<!--   		<form-login-page>/ch10/login.jsp</form-login-page> -->
+<!--   		<form-error-page>/ch10/login_failed.jsp</form-error-page> -->
+<!--   	</form-login-config> -->
+<!--   </login-config> -->
+  <!-- ch10 폼 기반 인증처리 방법으로 보안 처리하기 /end -->
+
+
+  <!-- ch10 프로그래밍적 시큐리티 보안 처리하기-->
+  <security-role>
+  	<role-name>role1</role-name>
+  </security-role>
+  
+  <security-constraint>
+  	<web-resource-collection>
+  		<web-resource-name>JSPBook</web-resource-name>
+  		<url-pattern>/ch10/security02.jsp</url-pattern>
+  		<http-method>GET</http-method>
+  	</web-resource-collection>
+  	
+  	<auth-constraint>
+  		<description>프로그래밍적 시큐리티 보안 처리하기</description>
+  		<role-name>role1</role-name>
+  	</auth-constraint>
+  </security-constraint>
+  
+  <login-config>
+  	<auth-method>FORM</auth-method>
+  	<form-login-config>
+  		<form-login-page>/ch10/login.jsp</form-login-page>
+  		<form-error-page>/ch10/login_failed.jsp</form-error-page>
+  	</form-login-config>
+  </login-config>
+  <!-- ch10 프로그래밍적 시큐리티 보안 처리하기 /end -->
+  
+  
+  <error-page>
+  	<error-code>500</error-code>
+  	<location>/ch11/errorCode_error.jsp</location>
+  </error-page>
+  
+  <error-page>
+  	<exception-type>java.lang.Exception</exception-type>
+  	<location>/ch11/exceptionType_error2.jsp</location>
+  </error-page>
+</web-app>
