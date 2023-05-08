@@ -89,4 +89,53 @@
   	<exception-type>java.lang.Exception</exception-type>
   	<location>/ch11/exceptionType_error2.jsp</location>
   </error-page>
+  
+  <!-- 12장 필터1 -->
+  <filter>
+  	<filter-name>Filter01</filter-name>
+  	<filter-class>ch12.AuthenFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>Filter01</filter-name>
+  	<url-pattern>/ch12/filter01_process.jsp</url-pattern>
+  </filter-mapping>
+  <!-- Filter1 end -->
+  
+  <!-- Filter02 -->
+  <filter>
+  	<filter-name>Filter02</filter-name>
+	<filter-class>ch12.InitParamFilter</filter-class>  	
+	<init-param>
+		<param-name>param1</param-name>
+		<param-value>admin</param-value>
+	</init-param>  
+	<init-param>
+		<param-name>param2</param-name>
+		<param-value>1234</param-value>
+	</init-param>  
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>Filter02</filter-name>
+  	<url-pattern>/ch12/filter02_process.jsp</url-pattern>
+  </filter-mapping>
+  
+  <!-- Filter02end -->
+  
+  <!-- filter03 -->
+  <filter>
+  	<filter-name>Filter02_2</filter-name>
+  	<filter-class>ch12.LogFileFilter</filter-class>
+  	<init-param>
+  		<param-name>filename</param-name>
+  		<param-value>C:\\logs\\monitor.log</param-value>
+  	</init-param>
+  </filter>
+  <filter-mapping>
+  	<filter-name>Filter02_2</filter-name>
+  	<url-pattern>/ch12/filter02_process.jsp</url-pattern>
+  </filter-mapping>
+  <!-- filter03 -->
+  
 </web-app>
