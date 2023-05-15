@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<!-- 
+		# log4j 정의
+		- 다양한 서버상의 정보들을 출력하고 다양한 대상으로 출력을 도와주는 도구
+		
+		# log4j LEVEL 설정
+		OFF : 로깅 해제
+			- 로깅을 사용하지 않음
+		FATAL : 심각한 오류
+			- 아주 심각한 에러가 발생한 상태.
+			- 시스템적으로 심각한 문제가 발생해서 애플리케이션 작동이 불가능할 경우가 해당하는데 일반적으로 
+			    애플리케이션에서는 사용할 일이 없다.
+		ERROR : 오류
+			- 요청을 처리하는 중 문제가 발생한 상태를 나타낸다.
+		WARN : 경고
+			- 처리 가능한 문제이지만, 향후 시스템 에러의 원인이 될 수 있는 경고성 메시지를 나타낸다.
+		INFO : 강조 정보
+			- 로그인, 상태변경과 같은 정보성 메시지를 나타낸다.
+		DEBUG : 디버깅
+			- 개발시 디버그 용도로 사용한 메시지를 나타낸다.
+		TRACE : 세밀
+			- log4j1.2.12에서 신규 추가된 레벨이다.
+			- debug 레벨이 너무 광범위한 것을 해결하기 위해서 좀 더 상세한 상태를 나타냄
+			
+		FATAL > ERROR > WARN > INFO > DEBUG > TRACE
+		
+		# log4j pattern option
+		%p : debug, info, warn, error, fatal 등의 prioority 출력
+		%m : 로그 내용 출력
+		%d : 로깅 이벤트가 발생한 시간을 출력
+		%t : 로그 이벤트가 발생한 쓰레드의 이름 출력
+		%F : 로깅이 발생한 프로그램 파일명 출력
+		%M : 로깅이 발생한 method 이름 출력
+		% : %표시 출력
+		%n : 플랫폼 종속적인 개행문자 출력
+	 -->
+
+	<!-- Appenders -->
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
+		</layout>
+	</appender>
+	
+	<!-- Application Loggers -->
+	<logger name="kr.or.ddit">
+		<level value="info" />
+	</logger>
+	
+	<!-- 3rdparty Loggers -->
+	<logger name="org.springframework.core">
+		<level value="info" />
+	</logger>
+	
+	<logger name="org.springframework.beans">
+		<level value="info" />
+	</logger>
+	
+	<logger name="org.springframework.context">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.springframework.web">
+		<level value="info" />
+	</logger>
+
+	<!-- Root Logger -->
+	<root>
+		<priority value="debug" />
+		<appender-ref ref="console" />
+	</root>
+	
+</log4j:configuration>
