@@ -18,7 +18,7 @@
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
 		<level value="info" />
-	</logger>
+	</logger>	
 	
 	<logger name="org.springframework.beans">
 		<level value="info" />
@@ -33,12 +33,8 @@
 	</logger>
 
 	<!-- Root Logger -->
-	<!--
-		개발중에 가장 많은 정보가 나오는게 유리하기 때문에
-		로그 레벨을 가장 낮은 레벨인 debug로 설정함.
-	 -->
 	<root>
-		<priority value="debug" />
+		<priority value="info" />
 		<appender-ref ref="console" />
 	</root>
 	

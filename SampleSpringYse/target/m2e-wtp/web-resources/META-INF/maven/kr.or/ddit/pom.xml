@@ -109,6 +109,65 @@
 			<version>1.2</version>
 		</dependency>
 	
+	<!-- Database setting -->
+	<!-- 
+		mybatis는 xml로 쿼리를 작성하게 해주는 라이브러리
+		쿼리를 문자열로 코딩하지 않고 xml을 사용해서 관리하게 해준다.
+	 -->
+	<dependency>
+		<groupId>org.mybatis</groupId>
+		<artifactId>mybatis</artifactId>
+		<version>3.5.4</version>
+	</dependency>
+	<!-- mybatis-spring은 스프링 mybatis를 연동하게 해주는 라이브러리 -->
+	<dependency>
+		<groupId>org.mybatis</groupId>
+		<artifactId>mybatis-spring</artifactId>
+		<version>2.0.4</version>
+	</dependency>
+	<!-- 
+		jdbc는 자바에게 데이터베이스에 접속하기 위한 api
+		spring-jdbc는 스프링에서 jdbc를 통해 데이터베이스와 연결할 수 있게 해준다.
+	 -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-jdbc</artifactId>
+		<version>${org.springframework-version}</version>
+	</dependency>
+	<!-- 
+		dbcp2는 데이터베이스 커넥션 풀
+		데이터베이스 서버와 웹 서버는 서로 다른 프로그렘이고,
+		실무에서는 전혀 다른 컴퓨터에 설치되어 있을 가능성이 높음
+		서로 다른 컴퓨터와 다른 프로그램이 통신을 하기 위해서는 서로 연결을 맺는 과정이 필요
+		미리 데이터베이스와 연동하기 위한 길을 만들어놓는 라이브러리
+		요즘은 dbcp2보다 hiarkicp를 자주 사용하기도 함.
+	 -->
+	<dependency>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-dbcp2</artifactId>
+		<version>2.7.0</version>
+	</dependency>
+	
+	<!-- 
+		로깅을 위한 라이브러리
+		데이터베이스에 연동하는 쿼리를 콘솔이나 파일 로그로 볼 수 있게 해준다.
+	 -->
+	<dependency>
+		<groupId>org.bgee.log4jdbc-log4j2</groupId>
+		<artifactId>log4jdbc-log4j2-jdbc4</artifactId>
+		<version>1.16</version>
+	</dependency>
+	
+	<!--
+		oracle 데이터베이스 연동 라이브러리 
+	 -->
+	<dependency>
+		<groupId>com.oracle.database.jdbc</groupId>
+		<artifactId>ojdbc8</artifactId>
+		<version>21.1.0.0</version>
+	</dependency>
+	
+	<!-- D.B end -->
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>

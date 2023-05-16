@@ -5,4 +5,42 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 		
+	<!-- 
+		데이터베이스 관련 정보 설정
+		데이터 소스
+		 - 데이터베이스 관련 정보를 데이터소스라고한다.
+		jdbc:oracleLthin @//localhost:1521:yse
+		- jdbc를 이용하여 oracle 드라이버로 현재 localhost 데이터베이스 yse에 접속한다는 뜻
+		username 은 db 사용자명이다
+		password 는 db 비밀번호다
+	 -->
+	 <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+	 	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+	 	<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
+	 	<property name="username" value="yse"/>
+	 	<property name="password" value="java"/>
+	 </bean>
+	 <!-- 
+	 	sqlSessionFactory는 데이터베이스와 연결을 맺고 끊어질 때까지의 라이프 사이클을 관리하는 sqlSession객체를 만든다.
+	 	sqlSessionFactory 객체의 프로퍼티는 총 두가지가 존재함.
+	 	1) 데이터 소스를 설정하는 프로퍼티
+	 	2) mapper 파일의 위치를 지정하는 프로퍼티
+	 	   mapper파일은 실제 쿼리 내용이 담겨있는 파일들
+	  -->
+	 <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	 	<property name="dataSource" ref="dataSource"/>
+	 	<property name="mapperLocations" value="classpath:/sqlmap/**/*_SQL.xml"/>
+	 </bean>
+	 
+	 <!-- 
+	 	sqlSessionTemplate은 데이터베이스에 개별적으로 쿼리를 실행시키는 객체
+	 	sqlSessionTemplate을 소스코드에서 사용하여 쿼리를 실행
+	 	sqlSessionTemplate 빈은 sqlSessionFactory객체를 생성자로 받고,
+	 	sqlSession 객체가 가지고 있는 데이터베이스 접속 정보와 mapper파일의 위치를 알 수 있다.
+	 	
+	 	ex)SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate();
+	  -->
+	 <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+	 	<constructor-arg index="0" ref="sqlSessionFactory"/>
+	 </bean>
 </beans>
