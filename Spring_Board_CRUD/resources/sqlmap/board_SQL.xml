@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="Board">
+ 	<insert id="insertBoard" parameterType="boardVo" useGeneratedKeys="true">
+ 		<selectKey keyProperty="boNo" order="BEFORE" resultType="int">
+ 			select seq_board.nextval from dual
+ 		</selectKey>	
+ 		insert into board(
+ 			bono, botitle, bocontent, bowriter, bodate
+ 		)values(
+ 			#{boNo}, #{boTitle}, #{boContent}, #{boWriter},	sysdate
+ 		)
+ 		
+ 	</insert>
+ 	
+ 	<update id="incrementHit" parameterType="int">
+ 		update board
+ 		set
+ 			bohit = bohit+1
+ 		where bono = #{boNo}
+ 	</update>
+ 	
+ 	<select id="selectBoard" parameterType="int" resultType="boardVo">
+ 		select
+ 			bono, botitle, bocontent, bowriter, bodate, bohit
+ 		from board
+ 		where bono = #{boNo}
+ 	</select>
+ 	
+ 	<update id="updateBoard" parameterType="boardVo">
+ 		update board
+ 		set
+ 			botitle = #{boTitle},
+ 			bocontent = #{boContent},
+ 			bodate = sysdate
+ 		where bono = #{boNo}
+ 	</update>
+ 	
+ 	<delete id="deleteBoard" parameterType="int">
+ 		delete from board where bono = #{boNo}
+ 	</delete>
+ 	
+ 	<select id="selectBoardList" resultType="boardVo">
+ 		select
+ 			bono, botitle, bocontent, bowriter, to_char(bodate, 'yy-mm-dd hh24:mi:ss') as bodate, bohit
+ 		from board
+ 		where 1=1
+ 		order by bono desc
+ 	</select>
+ 	
+ 	<select id="selectBoardCount" parameterType="pagingVo" resultType="int">
+ 		select count(bono)
+ 			from board
+ 			where 1=1
+ 	</select>
+ 	
+ 	<select id="selectBoardList2" parameterType="pagingVo" resultType="boardVo">
+	 	select b.*
+	 		from(
+				select
+			 	a.*, row_number() over(order by a.bono desc) rnum
+			 	from(
+				 	select
+				 		bono, botitle, bocontent, bowriter,
+				 		to_char(bodate, 'yy-mm-dd hh24:mi:ss')bodate, bohit
+				 	from board
+				 	where 1=1
+				 	order by bono desc
+				)a
+	 		)b
+	 		<![CDATA[
+	 			where b.rnum  >= #{startRow} and b.rnum <= #{endRow}
+	 		]]>
+ 	</select>
+ </mapper>
+ 
+ 
+ 
