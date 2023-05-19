@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="Notice">
+ 	
+ 	<sql id="noticeSearch">
+ 		<if test="searchType != null and searchType == 'title'">
+ 			and (botitle like '%'||#{searchWord}||'%')
+ 		</if>
+ 		<if test="searchType != null and searchType == 'writer'">
+			and (bowriter like '%'||#{searchWord}||'%')
+ 		</if>
+ 		<if test="searchType != null and searchType == 'total'">
+			and (
+				bowriter like '%'||#{searchWord}||'%' or
+				botitle like '%'||#{searchWord} ||'%'
+			   )
+ 		</if>
+ 	</sql>
+ 	
+ 	<insert id="insertNotice" parameterType="noticeVo" useGeneratedKeys="true">
+ 		<selectKey keyProperty="boNo" order="BEFORE" resultType="int">
+ 			select seq_notice.nextval from dual
+ 		</selectKey>	
+ 		insert into notice(
+ 			bono, botitle, bocontent, bowriter, bodate
+ 		)values(
+ 			#{boNo}, #{boTitle}, #{boContent}, #{boWriter},	sysdate
+ 		)
+ 		
+ 	</insert>
+ 	
+ 	<update id="incrementHit" parameterType="int">
+ 		update notice
+ 		set
+ 			bohit = bohit+1
+ 		where bono = #{boNo}
+ 	</update>
+ 	
+ 	<select id="selectNotice" parameterType="int" resultType="noticeVo">
+ 		select
+ 			bono, botitle, bocontent, bowriter, bodate, bohit
+ 		from notice
+ 		where bono = #{boNo}
+ 	</select>
+ 	
+ 	<update id="updateNotice" parameterType="noticeVo">
+ 		update notice
+ 		set
+ 			botitle = #{boTitle},
+ 			bocontent = #{boContent},
+ 			bodate = sysdate
+ 		where bono = #{boNo}
+ 	</update>
+ 	
+ 	<delete id="deleteNotice" parameterType="int">
+ 		delete from notice where bono = #{boNo}
+ 	</delete>
+ 	
+ 	<select id="selectNoticeCount" parameterType="pagingVo" resultType="int">
+ 		select count(bono)
+ 			from notice
+ 			where 1=1
+ 			<include refid="noticeSearch"/>
+ 	</select>
+ 	
+ 	<select id="selectNoticeList" parameterType="pagingVo" resultType="noticeVo">
+	 	select b.*
+	 		from(
+				select
+			 	a.*, row_number() over(order by a.bono desc) rnum
+			 	from(
+				 	select
+				 		bono, botitle, bocontent, bowriter,
+				 		to_char(bodate, 'yy-mm-dd hh24:mi:ss')bodate, bohit
+				 	from notice
+				 	where 1=1
+				 	<include refid="noticeSearch"/>
+				 	order by bono desc
+				)a
+	 		)b
+	 		<![CDATA[
+	 			where b.rnum  >= #{startRow} and b.rnum <= #{endRow}
+	 		]]>
+ 	</select>
+ </mapper>
+ 
+ 
+ 

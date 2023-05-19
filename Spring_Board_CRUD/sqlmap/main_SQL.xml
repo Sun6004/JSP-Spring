@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="Main">
+ 	
+ 	<select id="selectBoardList" resultType="boardVo">
+ 		<!-- 최신글부터 5개를 검색하는 쿼리문 -->
+ 		<![CDATA[
+ 			select b.*
+				from(
+				    select a.*, row_number() over(order by a.bono desc) rnum
+				    from(
+				        select
+				            bono, botitle, bocontent, bowriter, bodate, bohit
+				        from board
+				        where 1=1
+				        order by bono desc
+				    )a
+				)b
+			where rnum <=5
+ 		]]>
+ 	</select>
+ 	
+ 	<select id="selectFreeList" resultType="freeVo">
+ 		<!-- 최신글부터 5개를 검색하는 쿼리문 -->
+ 		<![CDATA[
+ 			select b.*
+				from(
+				    select a.*, row_number() over(order by a.bono desc) rnum
+				    from(
+				        select
+				            bono, botitle, bocontent, bowriter, bodate, bohit
+				        from free
+				        where 1=1
+				        order by bono desc
+				    )a
+				)b
+			where rnum <=5
+ 		]]>
+ 	</select>
+ 	
+ 	<select id="selectNoticeList" resultType="noticeVo">
+ 		<!-- 최신글부터 5개를 검색하는 쿼리문 -->
+ 		<![CDATA[
+ 			select b.*
+				from(
+				    select a.*, row_number() over(order by a.bono desc) rnum
+				    from(
+				        select
+				            bono, botitle, bocontent, bowriter, bodate, bohit
+				        from notice
+				        where 1=1
+				        order by bono desc
+				    )a
+				)b
+			where rnum <=5
+ 		]]>
+ 	</select>
+ 	
+ 	<select id="boardLength" resultType="int">
+ 		select count(*) from board
+ 	</select>
+ 	
+ 	<select id="noticeLength" resultType="int">
+ 		select count(*) from notice
+ 	</select>
+ 	
+ 	<select id="freeLength" resultType="int">
+ 		select count(*) from free
+ 	</select>
+ </mapper>
+ 
+ 
+ 
