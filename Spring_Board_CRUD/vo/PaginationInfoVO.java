@@ -132,30 +132,33 @@ public class PaginationInfoVO<T> { // <T> : 원하는 제네릭 타입을 넣어
 		this.blockSize = blockSize;
 	}
 
-	public String getPagingHTML() {
-		StringBuffer html = new StringBuffer();
-
-		// 부트스트랩을 이용하던 여러 css요소를 이용해서 페이징 UI를 구현하는 곳입니다!
-		html.append("<ul class='pagination pagination-sm m-0 float-right'>");
-
-		if (startPage > 1) {
-			html.append("<li class='page-item'><a href='' class='page-link' data-page='" + (startPage - blockSize)
-					+ "'>Prev</a></li>");
-		}
-		for (int i = startPage; i <= (endPage < totalpage ? endPage : totalpage); i++) {
-			if (i == currentpage) {
-				html.append("<li class='page-item active'><span class='page-link'>" + i + "</span></li>");
-			} else {
-				html.append(
-						"<li class='page-item'><a href='' class='page-link' data-page='" + i + "'>" + i + "</a></li>");
-			}
-		}
-
-		if (endPage < totalpage) {
-			html.append("<li class='page-item'><a href='' class='page-link' data-page='" + (endPage + 1)
-					+ "'>Next</a></li>");
-		}
-		html.append("</ul>");
-		return html.toString();
-	}
+	   public String getPagingHTML() {
+		      StringBuffer html = new StringBuffer();
+		      
+		      // 부트스트랩을 이용하던 여서 css요소를 이용해서 페이징 UI를 구현하는 곳입니다!
+		      html.append("<ul class='pagination pagination-sm m-0 float-right'>");
+		      
+		      if(startPage > 1) {
+		         html.append("<li class='page-item'><a href='' class='page-link' data-page='"
+		               +(startPage - blockSize)+"'>Prev</a></li>");
+		      }
+		      
+		      for(int i=startPage; i<=(endPage < totalpage ? endPage : totalpage); i++ ) {
+		         if(i == currentpage) {
+		            html.append("<li class='page-item active'><span class='page-link'>"
+		                  + i + "</span></li>");
+		         } else {
+		            html.append("<li class='page-item'><a href='' class='page-link' data-page='"
+		                  + i +"'>" + i + "</a></li>");
+		         }
+		      }
+		      
+		      if(endPage < totalpage) {
+		         html.append("<li class='page-item'><a href='' class='page-link' data-page='"
+		               + (endPage + 1) + "'>Next</a></li>");
+		      }
+		      html.append("</ul>");
+		      
+		      return html.toString();
+		   }
 }
