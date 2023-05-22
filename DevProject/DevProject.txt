@@ -1,0 +1,102 @@
+1장. 스프링 개발 환경
+
+	JDK 1.8, Tomcat 8.5x, Oracle 11g xe
+	
+
+2장. 프로젝트 생성
+	스프링 MVC 구조
+		
+		1. 스프링 MVC구조
+			스프링 mvc는 DispatcherServlet, View Resolver, Handler, View등으로 구성되어 있다.
+		
+		2. 스프링 MVC 프로젝트 생성
+			Spring Legacy project(Spring Mvc Project Template)생성
+			프로젝트명: DevProject
+			template: Spring MVC Project
+			package: 여기서 설정하는 패키지는 프로젝트의 base pakage경로가 된다(kr.or.ddit)
+		
+		3. MVC 프로젝트 파일 구성
+			프로젝트를 새로 구성하면 관련 파일들과 폴더들이 자동으로 생성된다.
+			
+			[구성요소]
+			-pom.xml										:메이블 프로젝트 빌드 파일
+			-src/main/java									:자바 소스경로
+			-src/main/resources								:리소스 파일 경로
+			-src/.../WEB-INF/web.xml						:웹 컨테이너 설정 파일
+			-src/.../WEB-INF/spring/root-context.xml		:스프링 설정 파일
+			-src/.../WEB-INF/views							:뷰 파일 경로
+		
+		4. 로그 레벨 설정
+			Log4j 구성요소
+			- Logger : 출력할 메시지를 Appender에 전달한다.
+			- Appender : 전달된 로그를 어디에 출력할지 결정한다.(콘솔출력, 파일기록로그,DB저장 등)
+			- Layout : 로그를 어떤 형식으로 출력할 지 결정한다.
+			
+			Log4j 레벨
+			출력 레벨 설정에 따라 설정 레벨 이상의 로그가 출력된다.
+			- FATAL : 아주 심각한 에러가 발생한 상태를 나타낸다.
+			- ERROR : 어떠한 요청을 처리하는 중 문제가 발생한 상태를 나타낸다.
+			- WARN : 프로그렘의 실행에는 문제가 없지만, 향후 시스템 에러의 원인이 될 수 있는 경고성 메시지를 나타낸다.
+			- INFO : 어떠한 상태변경과 같은 정보성 메시지를 나타낸다.
+			- DEBUG : 개발 시 디버그 용도로 사용하는 메시지를 나타낸다.
+			- TRACE : 디버그 레벨이 너무 광범위한 것을 해결하기 위해서 좀 더 상세한 이벤트를 나타낸다.
+			
+			
+	Spring 2 진행 내용
+		개발 시 사용하고 있는 STS는 3.9.15.REALESE버전에 해당하며, 이클립스 e4.16버전에 해당한다.
+		다양한 STS(e_version)버전들이 존재하지만, 우리가 사용하는 JDK1.8 버전과 Spring Framework 호환성의 문제가 가장 적은
+		3.9.15버전을 선택해 사용중
+		
+		1. STS 3.9.15 Tool설치 후 실행
+		2. workspace 경로 설정 후 sts 진입.
+		3. enc, font설정
+			> enc는 utf-8
+			> font는 원하는대로
+		4. 웹 서버 실행 환경설정
+			>window>preferences >server > runtime Environments
+			>기존 등록되어 있는 vm서버 설정은 삭제
+			>우리가 사용하고자 하는 톰캣8.5로 설정
+			>add 버튼 클릭 후, 톰캣8.5추가
+			>추가 시, 톰캣 폴더까지 선택후 추가(사용jdk선택)
+		5.Eclipse Java설정
+			>window>preferences>java>Installed JREs
+			>기존 jre는 삭제
+			>우리가 사용하고 있는 버전의 jdk폴더를 찾아서 bin폴더 선택 후 추가
+		6.스프링 MVC 프로젝트 생성
+			>Spring legacy project 생성
+			>프로젝트명, 패키지, template 선택 후 진행
+				프로젝트명: DevProject
+				패키지: kr.or.ddit
+				template: Spring MVC Project
+		7. MVC 프로젝트 파일 구성 확인하기
+			> web.xml, pom.xml, root-context/servlet-context.xml, webapp등등 관련 파일들이 존재하는지를 확인한다.
+			> 간혹 MVC Project가 잘못 생성되어 관련 파일들이 여러개 누락되는 경우가 있으니 꼭 확인하고 진행한다.
+		8. 웹 서버 설정 변경하기
+			> server의 overview > timeour 120초 설정/ port 80설정
+			> server의 module  > path '/'변경
+		9. 개발환경 버전 변경
+			> pom.xml변경
+			> dependency중, servlet api에 해당하는 버전과 artifactid를 변경한다.
+				> artifactid: javax.servlet-api
+				> version:3.1.0
+			> java-version과 springframework 버전을 변경한다.
+				> java :1.8
+				> springframework : 5.3.25
+			
+			*** pom.xml을 변경했다면 해당 프로젝트에 maven설정을 반영하도록 한다
+				> 프로젝트 우클릭 > run as > maven clean 후 maven build를 진행한다(Goals:compile설정)
+			> web.xml 변경
+			> 서블릿 버전에 대한 설정을 2.5 / 2_5설정을 3.1 / 3_1로 변경
+			
+			*** encoding과 관련된 필터를 등록하여 인코딩 설정을 진행한다.
+			
+			> 프로젝트 환경 설정 버전 변경
+				> java build path : jdk추가(사용하고 있는 1.8버전으로)
+				> 서버,jdk, maven 추가
+				> project facets: java 1.8설정, dynamic web module 3.1설정
+					> runtime 탭의 server 체크 후 apply
+			
+			
+	10. 로그 레벨 설정하기
+		> log4j.xml의 root level을 debug로 변경한다.
+			
