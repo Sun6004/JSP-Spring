@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -135,20 +136,30 @@
                     </tr>
                   </thead>
                   <tbody>
-					<tr class="text-center">
-					  <td colspan="5" class="text-dark font-weight-bolder">조회하신 게시글이 존재하지 않습니다.</td>
-					</tr>
-                    <tr class="text-center">
-                      <td>1</td>
-                      <td class="text-dark">304호 여러분 반장입니다! 공지할게요!</td>
-                      <td>작성자</td>
-                      <td>
-                        <span class="text-dark text-xs font-weight-bold">2023-03-16 14:20</span>
-                      </td>
-					  <td>
-                        <span class="text-dark text-xs font-weight-bold">1450</span>
-					  </td>
-                    </tr>
+	                  <c:set value="${BoardVO.boardList }" var="boardList">
+		                  <c:choose>
+		                  	<c:when test="${empty boardList }">
+								<tr class="text-center">
+								  <td colspan="5" class="text-dark font-weight-bolder">조회하신 게시글이 존재하지 않습니다.</td>
+								</tr>                  	                  
+		                  	</c:when>
+		                  	<c:otherwise>
+		                  		<c:forEach items="${boardList }" var="board">
+		                  			 <tr class="text-center">
+					                      <td>${board.bono }</td>
+					                      <td class="text-dark">${board.boTitle }</td>
+					                      <td>${board.boWriter }</td>
+					                      <td>
+					                        <span class="text-dark text-xs font-weight-bold">${board.boDate }</span>
+					                      </td>
+										  <td>
+					                        <span class="text-dark text-xs font-weight-bold">${board.boHit }</span>
+										  </td>
+					                  </tr>
+		                  		</c:forEach>
+		                  	</c:otherwise>
+		                  </c:choose>
+	                  </c:set>
                   </tbody>
                 </table>
               </div>
