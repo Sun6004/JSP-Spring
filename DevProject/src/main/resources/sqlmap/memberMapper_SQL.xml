@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="kr.or.ddit.mapper.MemberMapper">
+  
+  	<resultMap type="memberVo" id="memberMap">
+  		<id property="userNo" column="user_no"/>
+  		<result property="userNo" column="user_no"/>
+  		<result property="userId" column="user_id"/>
+  		<result property="userPw" column="user_pw"/>
+  		<result property="userName" column="user_name"/>
+  		<result property="regDate" column="reg_date"/>
+  		<result property="updDate" column="upd_date"/>
+  		<collection property="authList" resultMap="authMap"/>
+  	</resultMap>
+  	
+  	<resultMap type="memberAuth" id="authMap">
+  		<result property="userNo" column="user_no"/>
+  		<result property="auth" column="auth"/>
+  	</resultMap>
+  		
+  	<insert id="create" parameterType="memberVo" useGeneratedKeys="true">
+  		<selectKey keyProperty="userNo" resultType="int" order="BEFORE">
+  			select seq_member.nextval from dual
+  		</selectKey>
+  		insert into member(
+  			user_no, user_id, user_pw, user_name, reg_date, upd_date
+  		)values(
+  			#{userNo}, #{userId}, #{userPw}, #{userName}, sysdate, sysdate
+  		)
+  	</insert>
+  	
+  	<insert id="createAuth" parameterType="MemberAuth">
+  		insert into member_auth(
+  			user_no, auth
+  		)values(
+  			#{userNo}, #{auth}
+  		)
+  	</insert>
+  	
+  	<select id="list" resultType="memberVo">
+  		select
+  			user_no, user_id, user_pw, user_name, reg_date
+  		from member
+  	</select>
+  	
+  	<select id="read" parameterType="int" resultMap="memberMap">
+  		select
+  			m.user_no, user_id, user_pw, user_name, reg_date, upd_date, auth
+  		from member m left outer join member_auth a on(m.user_no = a.user_no)
+  		where m.user_no = #{userNo}
+  	</select>
+  </mapper>
