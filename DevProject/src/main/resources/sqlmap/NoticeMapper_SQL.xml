@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="kr.or.ddit.mapper.NoticeMapper">
+  	<insert id="insertNotice" parameterType="noticeVo" useGeneratedKeys="true">
+  		<selectKey keyProperty="boNo" resultType="int" order="BEFORE">
+  			select seq_notice.nextval from dual
+  		</selectKey>
+  		insert into notice(
+  			bo_no, bo_title, bo_content, bo_writer, bo_date
+  		)values(
+  			#{boNo},#{boTitle},#{boContent},#{boWriter},sysdate
+  		)
+  	</insert>
+  	
+  	<update id="incrementHit" parameterType="int">
+  		update notice
+  		set
+  			bo_hit = bo_hit +1
+  		where bo_no = #{boNo}
+  	</update>
+  	
+  	<select id="selectNotice" parameterType="int" resultType="noticeVo">
+  		select
+  			bo_no, bo_title, bo_content, bo_writer,
+  			to_char(bo_date, 'yy-mm-dd hh24:mi:ss'), bo_date, bo_hit
+  		from notice
+  		where bo_no = #{boNo}
+  	</select>
+  	
+  	<update id="updateNotice" parameterType="noticeVo">
+  		update notice
+  		set
+  			bo_title = #{boTitle},
+  			bo_content = #{boContent},
+  			bo_date = sysdate
+  		where bo_no = #{boNo} 
+  	</update>
+  </mapper>
