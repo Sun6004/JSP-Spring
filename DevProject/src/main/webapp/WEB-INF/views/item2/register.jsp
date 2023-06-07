@@ -9,7 +9,7 @@
 </head>
 <body>
 <h2>Register</h2>
-	<form action="/item/register" method="post" enctype="multipart/form-data">
+	<form action="/item2/register" method="post" enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td>상품명 </td>
@@ -26,7 +26,13 @@
 			<tr>
 				<td>파일 </td>
 				<td>
-					<input type="file" name="picture" id="picture">
+					<input type="file" name="pictures" id="picture1">
+				</td>
+			</tr>
+			<tr>
+				<td>파일 </td>
+				<td>
+					<input type="file" name="pictures" id="picture2" >
 				</td>
 			</tr>
 			<tr>
@@ -38,7 +44,7 @@
 		</table>
 		<div>
 			<button type="submit" id="btnRegister">Register</button>
-			<button type="button" id="btnList" onclick="javascript:location.href='/item/list'">List</button>
+			<button type="button" id="btnList" onabort="javascript:location.href='/item2/list'">List</button>
 		</div>
 	</form>
 </body>
