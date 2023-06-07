@@ -22,5 +22,6 @@
   		<typeAlias type="kr.or.ddit.vo.PaginationInfoVO" alias="pagingVo"/>
   		<typeAlias type="kr.or.ddit.vo.Item" alias="item"/>
   		<typeAlias type="kr.or.ddit.vo.Item2" alias="item2"/>
+  		<typeAlias type="kr.or.ddit.vo.Item3" alias="item3"/>
   	</typeAliases>
   </configuration>
