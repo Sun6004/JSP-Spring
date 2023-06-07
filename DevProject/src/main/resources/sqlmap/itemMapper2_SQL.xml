@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.ItemMapper2">
+	<select id="list" resultType="item2">
+		select
+		item_id, item_name, price, description, picture_url, picture_url2
+		from item2
+		order by item_id desc
+	</select>
+
+	<insert id="register" parameterType="item2">
+		insert into item2(
+			item_id, item_name, price, description, picture_url, picture_url2
+		)values(
+			seq_item2.nextval, #{itemName}, #{price}, #{description}, #{pictureUrl}, #{pictureUrl2}
+		)
+	</insert>
+	
+	<select id="read" parameterType="int" resultType="item2">
+		select
+			item_id, item_name, price, description, picture_url, picture_url2
+		from item2
+		where item_id = #{itemId}
+	</select>
+	
+	<select id="getPicture" parameterType="int" resultType="String">
+		select picture_url
+		from item2
+		where item_id = #{itemId}
+	</select>
+	<select id="getPicture2" parameterType="int" resultType="String">
+		select picture_url2
+		from item2
+		where item_id = #{itemId}
+	</select>
+	
+	<update id="modify" parameterType="item2">
+		update item2
+		set
+			item_name = #{itemName},
+			price = #{price},
+			description = #{description},
+			picture_url = #{pictureUrl},
+			picture_url2 = #{pictureUrl2}
+		where item_id = #{itemId}
+	</update>
+	
+	<delete id="remove" parameterType="int">
+		delete from item2
+		where item_id = #{itemId}
+	</delete>
+</mapper>
