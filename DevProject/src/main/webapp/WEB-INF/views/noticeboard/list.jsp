@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- Content Header (Page header) -->
 <section class="content-header">
 	<div class="container-fluid">
@@ -25,19 +26,20 @@
 			<div class="col-md-12">
 				<div class="card">
 					<div class="card-header">
-						<div class="card-tools">
-							<div class="input-group input-group-sm" style="width: 440px;">
-								<select class="form-control">
-									<option>제목</option>
-									<option>작성자</option>
-								</select> <input type="text" name="table_search"
-									class="form-control float-right" placeholder="Search">
+						<div class="card-tools">				
+							<form method="post" id="searchForm" class="input-group input-group-sm" style="width: 440px;">
+								<input type="hidden" name="page" id="page">
+								<select class="form-control" name="searchType">
+									<option value="title" <c:if test="${searchType eq 'title' }">selected</c:if>>제목</option>
+									<option value="writer" <c:if test="${searchType eq 'writer' }">selected</c:if>>작성자</option>
+								</select> <input type="text" name="searchWord"
+									class="form-control float-right" placeholder="Search" value="${searchWord }">
 								<div class="input-group-append">
 									<button type="submit" class="btn btn-default">
 										<i class="fas fa-search"></i>검색
 									</button>
 								</div>
-							</div>
+							</form>
 						</div>
 						<h3 class="card-title">공지사항</h3>
 					</div>
@@ -54,97 +56,60 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>10</td>
-									<td>제목입니다1</td>
-									<td>관리자</td>
-									<td>2022-12-12</td>
-									<td>1456</td>
-								</tr>
-								<tr>
-									<td>9</td>
-									<td>제목입니다1</td>
-									<td>관리자</td>
-									<td>2022-12-12</td>
-									<td>1456</td>
-								</tr>
-								<tr>
-									<td>8</td>
-									<td>제목입니다1</td>
-									<td>관리자</td>
-									<td>2022-12-12</td>
-									<td>1456</td>
-								</tr>
-								<tr>
-									<td>7</td>
-									<td>제목입니다1</td>
-									<td>관리자</td>
-									<td>2022-12-12</td>
-									<td>1456</td>
-								</tr>
-								<tr>
-									<td>6</td>
-									<td>제목입니다1</td>
-									<td>관리자</td>
-									<td>2022-12-12</td>
-									<td>1456</td>
-								</tr>
-								<tr>
-									<td>5</td>
-									<td>제목입니다1</td>
-									<td>관리자</td>
-									<td>2022-12-12</td>
-									<td>1456</td>
-								</tr>
-								<tr>
-									<td>4</td>
-									<td>제목입니다1</td>
-									<td>관리자</td>
-									<td>2022-12-12</td>
-									<td>1456</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>제목입니다1</td>
-									<td>관리자</td>
-									<td>2022-12-12</td>
-									<td>1456</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>제목입니다1</td>
-									<td>관리자</td>
-									<td>2022-12-12</td>
-									<td>1456</td>
-								</tr>
-								<tr>
-									<td>1</td>
-									<td>제목입니다1</td>
-									<td>관리자</td>
-									<td>2022-12-12</td>
-									<td>1456</td>
-								</tr>
+								<c:set value="${pagingVo.dataList }" var="noticeList"></c:set>
+								<c:choose>
+									<c:when test="${empty noticeList }">
+										<tr>
+											<td colspan="5">조회하신 게시글이 존재하지 않습니다. </td>
+										</tr>
+									</c:when>
+									<c:otherwise>
+										<c:forEach items="${noticeList }" var="notice">
+											<tr>
+												<td>${notice.boNo } </td>
+												<td>
+													<a href="/notice/detail.do?boNo=${notice.boNo }">
+														${notice.boTitle } 
+													</a> 
+												</td>
+												<td>${notice.boWriter } </td>
+												<td>${notice.boDate } </td>
+												<td>${notice.boHit } </td>
+											</tr>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>	
 							</tbody>
 						</table>
 					</div>
+					<div class="card-body">
+						<button type="button" class="btn btn-primary" id="newBtn">등록</button>
+					</div>
 					<!-- /.card-body -->
-					<div class="card-footer clearfix">
-						<ul class="pagination pagination-sm m-0 float-right">
-							<li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-							<li class="page-item"><a class="page-link" href="#">1</a></li>
-							<li class="page-item"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
-							<li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-						</ul>
+					<div class="card-footer clearfix" id="pagingArea">
+						${pagingVo.pagingHTML }
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- /.row -->
-
-
-
 	</div>
-	<!-- /.container-fluid -->
 </section>
-<!-- /.content -->
+<script type="text/javascript">
+$(function(){
+	var searchForm = $('#searchForm');
+	var pagingArea = $('#pagingArea');
+	var newBtn = $('#newBtn');
+	
+	pagingArea.on('click',"a", function(){
+		event.preventDefault();
+		var pageNo = $(this).data("page");
+		searchForm.find('#page').val(pageNo);
+		searchForm.submit();
+	})
+	
+	newBtn.on('click', function(){
+		location.href = "/notice/form.do";
+	})
+})
+
+</script>
