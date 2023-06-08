@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="kr.or.ddit.mapper.LoginMapper">
+  	<select id="idCheck" parameterType="string" resultType="dditmemberVo">
+  		select mem_no, mem_id
+  		from dditmember
+  		where mem_id = #{memId}
+  	</select>
+  	
+  	<insert id="signup" parameterType="dditmemberVo" useGeneratedKeys="true">
+  		<selectKey keyProperty="memNo" resultType="int" order="BEFORE">
+  			select seq_dditmember.nextval from dual
+  		</selectKey>
+  		insert into dditmember(
+  			mem_no, mem_id, mem_pw,mem_name, mem_gender, mem_email, mem_phone, mem_postcode, mem_address1, mem_address2,
+  			mem_agree, mem_profileimg, mem_regdate	
+  		)values(
+  			#{memNo}, #{memId}, #{memPw},#{memName}, #{memGender}, #{memEmail}, #{memPhone}, #{memPostCode},
+  			 #{memAddress1}, #{memAddress2},#{memAgree}, #{memProfileImg}, sysdate	
+  		)
+  	</insert>
+  	
+  	<select id="loginCheck" parameterType="dditmemberVo" resultType="dditmemberVo">
+  		select 
+  			mem_no, mem_id, mem_pw,mem_name, mem_gender, mem_email, mem_phone, mem_postcode, mem_address1, mem_address2,
+  			mem_agree, mem_profileimg, mem_regdate	
+  		from dditmember
+  		where mem_id = #{memId}
+  		and mem_pw = #{memPw}
+  	</select>
+  </mapper>
