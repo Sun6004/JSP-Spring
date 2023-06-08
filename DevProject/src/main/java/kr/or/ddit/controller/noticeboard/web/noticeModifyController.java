@@ -12,6 +12,8 @@ import kr.or.ddit.ServiceResult;
 import kr.or.ddit.controller.noticeboard.service.INoticeService;
 import kr.or.ddit.vo.NoticeVO;
 
+
+
 @Controller
 @RequestMapping("/notice")
 public class noticeModifyController {
@@ -38,6 +40,22 @@ public class noticeModifyController {
 			model.addAttribute("noticeVo", noticeVo);
 			model.addAttribute("status", "u");
 		}
+		return goPage;
+	}
+
+	@PostMapping(value = "/delete.do")
+	public String noticeDelete(int boNo, Model model) {
+		String goPage = "";
+		ServiceResult res = null;
+		
+		res = noticeService.deleteNotice(boNo);
+		if(res.equals(ServiceResult.OK)) {
+			goPage = "redirect:/notice/list.do";
+		}else {
+			model.addAttribute("message", "서버오류,다시 시도해주세요!");
+			goPage = "redirect:/notice/detail.do?boNo="+boNo;
+		}
+		
 		return goPage;
 	}
 }
