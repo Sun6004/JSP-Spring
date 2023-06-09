@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.mapper.ProfileMapper">
+
+	<select id="selectMember" parameterType="dditmemberVo" resultType="dditmemberVo">
+		select
+			mem_no, mem_id, mem_pw,mem_name, mem_gender, mem_email, mem_phone,
+			mem_postcode, mem_address1, mem_address2,
+			mem_agree, mem_profileimg, mem_regdate
+		from dditmember
+		where mem_id = #{memId}
+	</select>
+	
+	<update id="profileUpdate" parameterType="dditmemberVo">
+		update dditmember
+		set
+			mem_pw = #{memPw},
+			mem_name = #{memName},
+			mem_gender = #{memGender},
+			mem_email = #{memEmail},
+			mem_phone = #{memPhone},
+			mem_postcode = #{memPostCode},
+			mem_address1 = #{memAddress1},
+			mem_address2 = #{memAddress2}
+			<if test="memProfileImg != null and memProfileImg != ''">
+				, mem_profileimg = #{memProfileImg}
+			</if>
+		where mem_no = ${memNo} 
+	</update>
+</mapper>

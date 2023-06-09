@@ -2,39 +2,149 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <mapper namespace="kr.or.ddit.mapper.NoticeMapper">
-  	<insert id="insertNotice" parameterType="noticeVo" useGeneratedKeys="true">
-  		<selectKey keyProperty="boNo" resultType="int" order="BEFORE">
-  			select seq_notice.nextval from dual
-  		</selectKey>
-  		insert into notice(
-  			bo_no, bo_title, bo_content, bo_writer, bo_date
-  		)values(
-  			#{boNo},#{boTitle},#{boContent},#{boWriter},sysdate
-  		)
-  	</insert>
-  	
-  	<update id="incrementHit" parameterType="int">
-  		update notice
-  		set
-  			bo_hit = bo_hit +1
-  		where bo_no = #{boNo}
-  	</update>
-  	
-  	<select id="selectNotice" parameterType="int" resultType="noticeVo">
-  		select
-  			bo_no, bo_title, bo_content, bo_writer,
-  			to_char(bo_date, 'yy-mm-dd hh24:mi:ss'), bo_date, bo_hit
-  		from notice
-  		where bo_no = #{boNo}
-  	</select>
-  	
-  	<update id="updateNotice" parameterType="noticeVo">
-  		update notice
-  		set
-  			bo_title = #{boTitle},
-  			bo_content = #{boContent},
-  			bo_date = sysdate
-  		where bo_no = #{boNo} 
-  	</update>
-  </mapper>
+<mapper namespace="kr.or.ddit.mapper.NoticeMapper">
+
+	<sql id="noticeSearch">
+		<if test="searchType != null and searchType == 'title'">
+			and (bo_title like '%' || #{searchWord} || '%')
+		</if>
+		<if test="searchType != null and searchType == 'writer'">
+			and (bo_writer like '%' || #{searchWord} || '%')
+		</if>
+	</sql>
+	
+	<resultMap type="noticeVo" id="noticeMap">
+		<id property="boNo" column="bo_no"/>
+		<result property="boNo" column="bo_no"/>
+		<result property="boTitle" column="bo_title"/>
+		<result property="boContent" column="bo_content"/>
+		<result property="boWriter" column="bo_writer"/>
+		<result property="boDate" column="bo_date"/>
+		<result property="boHit" column="bo_hit"/>
+		
+		<collection property="noticeFileList" resultMap="noticeFileMap"/>
+	</resultMap>
+	
+	<resultMap type="noticeFileVo" id="noticeFileMap">
+		<id property="fileNo" column="file_no"/>
+		<result property="fileNo" column="file_no"/>
+		<result property="fileName" column="file_name"/>
+		<result property="fileSize" column="file_size"/>
+		<result property="fileFancysize" column="file_fancysize"/>
+		<result property="fileMime" column="file_mime"/>
+		<result property="fileSavepath" column="file_savepath"/>
+		<result property="fileDowncount" column="file_downcount"/>
+	</resultMap>
+	
+	<insert id="insertNotice" parameterType="noticeVo"
+		useGeneratedKeys="true">
+		<selectKey keyProperty="boNo" resultType="int"
+			order="BEFORE">
+			select seq_notice.nextval from dual
+		</selectKey>
+		insert into notice(
+		bo_no, bo_title, bo_content, bo_writer, bo_date
+		)values(
+		#{boNo},#{boTitle},#{boContent},#{boWriter},sysdate
+		)
+	</insert>
+
+	<update id="incrementHit" parameterType="int">
+		update notice
+		set
+		bo_hit = bo_hit +1
+		where bo_no = #{boNo}
+	</update>
+
+	<select id="selectNotice" parameterType="int" resultMap="noticeMap">
+		select
+			n.bo_no, bo_title, bo_content, bo_writer,
+			to_char(bo_date, 'yy-mm-dd hh24:mi:ss'), bo_date, bo_hit,
+			file_no, file_name, file_size, file_fancysize, file_mime, file_savepath, file_downcount
+		from notice n left outer join noticefile nf on(n.bo_no = nf.bo_no)
+		where n.bo_no = #{boNo}
+	</select>
+
+	<update id="updateNotice" parameterType="noticeVo">
+		update notice
+		set
+		bo_title = #{boTitle},
+		bo_content = #{boContent},
+		bo_date = sysdate
+		where bo_no = #{boNo}
+	</update>
+
+	<update id="deleteNotice" parameterType="int">
+		delete from notice
+		where bo_no = #{boNo}
+	</update>
+
+	<select id="selectNoticeCount" parameterType="pagingVo"
+		resultType="int">
+		select count(bo_no)
+		from notice
+		where 1=1
+		<include refid="noticeSearch" />
+	</select>
+
+	<select id="selectNoticeList" parameterType="pagingVo"
+		resultType="noticeVo">
+		select
+			b.*
+		from(
+			select
+				a.*, row_number() over (order by a.bo_no desc) rnum
+			from(
+				select
+					bo_no, bo_title, bo_content, bo_writer,
+					to_char(bo_date, 'yy-mm-dd hh24:mi:ss') as bo_date, bo_hit
+			from notice
+			where 1=1
+			<include refid="noticeSearch" />
+			order by bo_no desc
+			) a
+		) b
+  <![CDATA[
+    where b.rnum >= #{startRow} and b.rnum <= #{endRow}
+  ]]>
+	</select>
+	
+	<insert id="insertNoticeFile" parameterType="noticeFileVo">
+		insert into noticefile(
+			file_no, bo_no, file_name, file_size, file_fancysize, file_mime, file_savepath, file_downcount
+		)values(
+			seq_noticefile.nextval, #{boNo}, #{fileName}, #{fileSize}, #{fileFancysize}, #{fileMime}, #{fileSavepath}, 0
+		)
+	</insert>
+	
+	<select id="noticeDownload" parameterType="int" resultType="noticeFileVo">
+		select
+			file_no, bo_no, file_name, file_size, file_fancysize, file_mime, file_savepath, file_downcount
+		from noticefile
+		where file_no = #{fileNo}
+	</select>
+	
+	<update id="incrementNoticeDowncount" parameterType="int">
+		update noticefile
+		set
+			file_downcount = file_downcount + 1
+		where file_no = #{fileNo}
+	</update>
+	
+	<select id="selectNoticeFile" parameterType="int" resultType="noticeFileVo">
+		select
+			file_no, bo_no, file_name, file_size, file_fancysize, file_mime, file_savepath, file_downcount
+		from noticefile
+		where file_no = #{fileNo}
+	</select>
+	
+	<delete id="deleteNoticeFile" parameterType="int">
+		delete from noticefile
+		where file_no = #{fileNo}
+	</delete>
+	
+	<delete id="deleteNoticeFileByBoNo" parameterType="int">
+		delete from noticefile
+		where bo_no = #{boNo}
+	</delete>
+</mapper>
