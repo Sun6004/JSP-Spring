@@ -43,10 +43,10 @@
 					<input type="text" class="form-control" id="memId" name="memId" placeholder="아이디를 입력해주세요.">
 				</div>
 				<div class="input-group mb-3">
-					<input type="text" class="form-control" id="memEmail" name="memEmail" placeholder="이메일을 입력해주세요.">
+					<input type="text" class="form-control" id="memEmail2" name="memEmail" placeholder="이메일을 입력해주세요.">
 				</div>
 				<div class="input-group mb-3">
-					<input type="text" class="form-control" id="memName" name="memName" placeholder="이름을 입력해주세요.">
+					<input type="text" class="form-control" id="memName2" name="memName" placeholder="이름을 입력해주세요.">
 				</div>
 				<div class="input-group mb-3">
 					<p>
@@ -69,3 +69,73 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+$(function(){
+	var idFindBtn = $("#idFindBtn");
+	var pwFindBtn = $("#pwFindBtn");
+	
+	idFindBtn.on('click', function(){
+		var memEmail = $("#memEmail").val();
+		var memName = $("#memName").val();
+		
+		if(memEmail == null || memEmail == ""){
+			alert("이메일을 입력하세요 ㅡㅡ");
+			return false;
+		}
+		if(memName == null || memName == ""){
+			alert("이름을 입력하세요 ㅡㅡ");
+			return false;
+		}
+		
+		var data = {
+				memEmail: memEmail,
+				memName: memName
+		}
+		
+		$.ajax({
+			type: "post",
+			url: "/notice/idForget.do",
+			contentType: "application/json",
+			data: JSON.stringify(data),
+			success: function(res){
+				$("#id").html(res);
+			}
+		})
+	})
+	
+	pwFindBtn.on('click', function(){
+		var memEmail = $("#memEmail2").val();
+		var memName = $("#memName2").val();
+		var memId = $("#memId").val();
+		
+		if(memEmail2 == null || memEmail2 == ""){
+			alert("이메일을 입력하세요 ㅡㅡ");
+			return false;
+		}
+		if(memName2 == null || memName2 == ""){
+			alert("이름을 입력하세요 ㅡㅡ");
+			return false;
+		}
+		if(memId == null || memId == ""){
+			alert("아이디 왜 안입력함? ㅡㅡ");
+			return false;
+		}
+		
+		var data = {
+				memId: memId,
+				memEmail: memEmail,
+				memName: memName
+		}
+		$.ajax({
+			type: "post",
+			url: "/notice/pwForget.do",
+			contentType: "application/json",
+			data: JSON.stringify(data),
+			success: function(res){
+				$("#password").html(res);
+			}
+		})
+	})
+})
+
+</script>
