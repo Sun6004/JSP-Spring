@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.CopyUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,9 +18,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.or.ddit.ServiceResult;
 import kr.or.ddit.controller.noticeboard.service.INoticeService;
+import kr.or.ddit.vo.DDITMemberVO;
 import kr.or.ddit.vo.NoticeVO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,8 +40,9 @@ public class NoticeInsertController {
 	}
 
 	@PostMapping(value = "/insert.do")
-	public String noticeInsert(NoticeVO noticeVo, Model model) {
+	public String noticeInsert(NoticeVO noticeVo, Model model, HttpServletRequest req, RedirectAttributes ra) {
 		String goPage = "";
+		System.out.println("boTitle: " + noticeVo.getBoTitle());
 		Map<String, String> errors = new HashMap<String, String>();
 		if(StringUtils.isBlank(noticeVo.getBoTitle())) {
 			errors.put("boTitle", "제목을 입력하세요");
@@ -50,13 +55,20 @@ public class NoticeInsertController {
 			model.addAttribute("errors", errors);
 			model.addAttribute("noticeVo", noticeVo);
 		}else {
-			noticeVo.setBoWriter("a001"); // 임시로 넣어둠
-			ServiceResult result = noticeService.insertNotice(noticeVo);
-			if(result.equals(ServiceResult.OK)) {
-				goPage = "redirect:/notice/detail.do?boNo="+noticeVo.getBoNo();
+			HttpSession session = req.getSession();
+			DDITMemberVO memberVO = (DDITMemberVO)session.getAttribute("SessionInfo");
+			if(memberVO != null) {
+				noticeVo.setBoWriter(memberVO.getMemId()); // 임시로 넣어둠
+				ServiceResult result = noticeService.insertNotice(noticeVo, req);
+				if(result.equals(ServiceResult.OK)) {
+					goPage = "redirect:/notice/detail.do?boNo="+noticeVo.getBoNo();
+				}else {
+					model.addAttribute("message", "서버에러, 다시 시도해주세요!");
+					goPage = "notice/form";
+				}				
 			}else {
-				model.addAttribute("message", "서버에러, 다시 시도해주세요!");
-				goPage = "notice/form";
+				ra.addFlashAttribute("message","로그인 후에 사용 가능합니다!");
+				goPage = "redirect:/notice/login.do";
 			}
 		}
 		return goPage;
@@ -71,7 +83,7 @@ public class NoticeInsertController {
 	// @ResponseBody: json, 하지만 텍스트로 리턴해줌
 	@ResponseBody 
 	@PostMapping(value = "/generalFormPost")
-	public String generalFormPost(Model model, NoticeVO noticeVo) {
+	public String generalFormPost(Model model, NoticeVO noticeVo ,HttpServletRequest req) {
 		log.info("notice: "+ noticeVo);
 		// 파일을 업로드할 대상
 		String uploadFolder = "D:\\A_TeachingMetereal\\JspSpring\\02.Spring2\\workspace_spring2\\DevProject\\src\\main\\webapp\\resources\\upload";
@@ -102,7 +114,7 @@ public class NoticeInsertController {
 				return "Failed";
 			}
 		}
-		this.noticeService.insertNotice(noticeVo);
+		this.noticeService.insertNotice(noticeVo, req);
 		model.addAttribute("message","등록에 성공했습니다.");
 		return "Success";
 	}

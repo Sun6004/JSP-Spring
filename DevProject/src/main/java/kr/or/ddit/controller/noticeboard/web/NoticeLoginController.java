@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -126,6 +127,18 @@ public class NoticeLoginController {
 		return page;
 	}
 	
-	
+	@ResponseBody
+	@PostMapping(value = "/idForget.do")
+	public ResponseEntity<String> idForgetProcess(@RequestBody DDITMemberVO member) {
+		String memId = noticeService.idForgetProcess(member);
+		return new ResponseEntity<String>(memId, HttpStatus.OK);
+	}
+
+	@ResponseBody
+	@PostMapping(value = "/pwForget.do")
+	public ResponseEntity<String> pwForgetProcess(@RequestBody DDITMemberVO member) {
+		String memPw = noticeService.pwForgetProcess(member);
+		return new ResponseEntity<String>(memPw, HttpStatus.OK);
+	}
 	
 }
