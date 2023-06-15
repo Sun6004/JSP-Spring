@@ -8,5 +8,6 @@
 </head>
 <body>
 	<h2>BOARD LIST : access to all</h2>
+	<a href="/board/register">등록</a>
 </body>
 </html>
