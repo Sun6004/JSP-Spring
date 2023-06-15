@@ -7,6 +7,12 @@
 
 	<bean id="customAccessDenied" class="kr.or.ddit.security.CustomAccessDeniedHandler"></bean>
 	<bean id="customLoginSuccess" class="kr.or.ddit.security.CustomLoginSuccessHandler"></bean>
+	<!-- 사용자가 정의한 비밀번호 암호화 처리기를 빈으로 등록 -->
+<!-- 	<bean id="customPasswordEncoder" class="kr.or.ddit.security.CustomNoOpPasswordEncoder"></bean> -->
+	<!-- 스프링 시큐리티에서 제공하는 BCryptPasswordEncoder 클래스를 자바 빈으로 등록 -->
+	<bean id="bcryptPassEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
+	<!-- 사용자 정의 사용자 상세기능 *** -->
+	<bean id="customUserDetailsService" class="kr.or.ddit.security.CustomUserDetailsService"></bean>
 	
 	<security:http>
 		<security:intercept-url pattern="/board/list" access="permitAll"/>
@@ -33,16 +39,26 @@
 	
 	<!-- 지정된 아이디와 패스워드로 로그인이 가능하도록 설정한다. -->
 	<security:authentication-manager>
-		<security:authentication-provider>
-			<security:user-service>
+		<security:authentication-provider user-service-ref="customUserDetailsService">
+<!-- 			<security:user-service> -->
 				<!-- 
 					메모리상에 아이디와 패스워드를 지정하고 로그인을 처리합니다.
 					스프링 시큐리티 5버전 이상부터는 패스워드 암호화 처리기를 반드시 이용해야 하는데,
 					암호화 처리기를 사용하지 않도록 하기 위해서는 {noop}문자열을 비밀번호 앞에 꼭 붙여서 사용하여야 합니다.
 				 -->
-				<security:user name="member" password="{noop}1234" authorities="ROLE_MEMBER"/>
-				<security:user name="admin" password="{noop}1234" authorities="ROLE_MEMBER, ROLE_ADMIN"/>
-			</security:user-service>
+<!-- 				<security:user name="member" password="{noop}1234" authorities="ROLE_MEMBER"/> -->
+<!-- 				<security:user name="admin" password="{noop}1234" authorities="ROLE_MEMBER, ROLE_ADMIN"/> -->
+<!-- 			</security:user-service> -->
+		
+<!-- 		<security:jdbc-user-service data-source-ref="dataSource"/> -->
+<!-- 		<security:password-encoder ref="customPasswordEncoder"/> -->
+
+			<!--  스프링 시큐리티가 원하는 결과를 반환하는 쿼리를 작성하여 지정한다. -->
+<!-- 			<security:jdbc-user-service data-source-ref="dataSource"  -->
+<!-- 			users-by-username-query="select user_id, user_pw, enabled from member where user_id = ?" -->
+<!-- 			authorities-by-username-query="select m.user_id, ma.auth from member_auth ma, member m where ma.user_no = m.user_no and m.user_id = ?"/> -->
+		
+			<security:password-encoder ref="bcryptPassEncoder"/>
 		</security:authentication-provider>
 	</security:authentication-manager>
 	
