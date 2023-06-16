@@ -57,7 +57,7 @@
 					<div class="card-body">
 						<div class="tab-content">
 							<div class="tab-pane active" id="settings">
-								<form class="form-horizontal" action="/notice/profileUpdate.do" method="post" id="profileUdtForm" enctype="multipart/form-data">
+								<form class="form-horizontal" action="/notice/profileUpdate.do?${_csrf.parameterName }=${_csrf.token}" method="post" id="profileUdtForm" enctype="multipart/form-data">
 									<input type="hidden" name="memNo" id="memNo" value="${member.memNo }">
 									<div class="form-group row">
 										<label for="memProfileImg" class="col-sm-2 col-form-label">프로필이미지</label>

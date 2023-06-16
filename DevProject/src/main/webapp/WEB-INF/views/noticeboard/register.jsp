@@ -7,7 +7,7 @@
 		<div class="card-body">
 			<p class="login-box-msg">회원가입</p>
 			
-			<form action="/notice/signup.do" method="post" id="signupForm" enctype="multipart/form-data">
+			<form action="/notice/signup.do?${_csrf.parameterName }=${_csrf.token}" method="post" id="signupForm" enctype="multipart/form-data">
 				<div class="input-group mb-3 text-center">
 					<img class="profile-user-img img-fluid img-circle" id="profileImg"
 						src="/resources/dist/img/AdminLTELogo.png" alt="User profile picture"
@@ -126,6 +126,10 @@ $(function(){
 		$.ajax({
 			type: "post",
 			url: "/notice/idCheck.do",
+			beforeSend: function(xhr){
+				// scurity설정 시토큰이 있어야 데이터가 전송됨
+				xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+			},
 			data: {memId: id},
 			success: function(res){
 				console.log("아이디 중복확인 결과: " +res);

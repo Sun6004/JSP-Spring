@@ -50,7 +50,7 @@
 				</div>
 				<div class="input-group mb-3">
 					<p>
-						회원님의 비밀번호는 [<font color="red" class="h2" id="password"></font>] 입니다.
+						회원님의 비밀번호는 [<font color="red" class="" id="password"></font>] 입니다.
 					</p>
 				</div>
 				<div class="row">
@@ -95,6 +95,10 @@ $(function(){
 		$.ajax({
 			type: "post",
 			url: "/notice/idForget.do",
+			beforeSend: function(xhr){
+				// scurity설정 시토큰이 있어야 데이터가 전송됨
+				xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+			},
 			contentType: "application/json",
 			data: JSON.stringify(data),
 			success: function(res){
@@ -129,6 +133,10 @@ $(function(){
 		$.ajax({
 			type: "post",
 			url: "/notice/pwForget.do",
+			beforeSend: function(xhr){
+				// scurity설정 시토큰이 있어야 데이터가 전송됨
+				xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+			},
 			contentType: "application/json",
 			data: JSON.stringify(data),
 			success: function(res){
