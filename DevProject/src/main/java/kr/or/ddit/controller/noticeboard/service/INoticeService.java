@@ -37,7 +37,7 @@ public interface INoticeService {
 
 	NoticeFileVO noticeDownload(int fileNo);
 
-	DDITMemberVO selectMember(DDITMemberVO sessionMember);
+	DDITMemberVO selectMember(String memId);
 
 	ServiceResult profileUpdate(HttpServletRequest req, DDITMemberVO memberVo);
 

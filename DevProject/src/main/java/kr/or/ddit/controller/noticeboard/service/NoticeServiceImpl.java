@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,6 +31,8 @@ public class NoticeServiceImpl implements INoticeService {
 	private LoginMapper loginMapper;
 	@Inject
 	private ProfileMapper profileMapper;
+	@Inject
+	private PasswordEncoder pe;
 	
 	TelegramSendController tst = new TelegramSendController();
 	
@@ -176,8 +179,11 @@ public class NoticeServiceImpl implements INoticeService {
 			proFileImg = "/resources/profile/" + fileName;
 		}
 		memberVo.setMemProfileImg(proFileImg);
+		// 비밀번호를 암호화해서 저장
+		memberVo.setMemPw(pe.encode(memberVo.getMemPw()));
 		int stat = loginMapper.signup(memberVo);
 		if(stat >0) {
+			loginMapper.signupAuth(memberVo.getMemNo());
 			res = ServiceResult.OK;
 		}else {
 			res = ServiceResult.FAILED;			
@@ -259,9 +265,9 @@ public class NoticeServiceImpl implements INoticeService {
 	}
 
 	@Override
-	public DDITMemberVO selectMember(DDITMemberVO sessionMember) {
+	public DDITMemberVO selectMember(String memId) {
 		// TODO Auto-generated method stub
-		return profileMapper.selectMember(sessionMember);
+		return profileMapper.selectMember(memId);
 	}
 
 	@Override
@@ -270,16 +276,20 @@ public class NoticeServiceImpl implements INoticeService {
 		
 		// 사용자가 수정한 프로필 이미지 정보에 따라서 프로필 이미지 정보 값을 설정 후 memberVo에 세팅해서 전달한다.
 		String uploadPath = req.getServletContext().getRealPath("/resources/profile");
+		
+		// 파일을 저장할 디렉토리 생성
 		File file = new File(uploadPath);
 		if(!file.exists()) {
 			file.mkdirs();
 		}
 		String proFileImg = "";
 		MultipartFile proFileImgFile = memberVo.getImgFile();
+		
+		// 사용자가 업로드한 파일이 존재하는 경우에만 실행
 		if(proFileImgFile.getOriginalFilename() != null && !proFileImgFile.getOriginalFilename().equals("")) {
 			String fileName = UUID.randomUUID().toString();
 			fileName += "_" + proFileImgFile.getOriginalFilename();
-			uploadPath += "/" +fileName;
+			uploadPath += "/" +fileName; // 파일의 최종 업로드경로를 설정
 			try {
 				proFileImgFile.transferTo(new File(uploadPath));
 			} catch (IllegalStateException | IOException e) {

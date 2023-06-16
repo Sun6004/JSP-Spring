@@ -7,10 +7,10 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.CopyUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.or.ddit.ServiceResult;
 import kr.or.ddit.controller.noticeboard.service.INoticeService;
-import kr.or.ddit.vo.DDITMemberVO;
 import kr.or.ddit.vo.NoticeVO;
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,10 +54,14 @@ public class NoticeInsertController {
 			model.addAttribute("errors", errors);
 			model.addAttribute("noticeVo", noticeVo);
 		}else {
-			HttpSession session = req.getSession();
-			DDITMemberVO memberVO = (DDITMemberVO)session.getAttribute("SessionInfo");
-			if(memberVO != null) {
-				noticeVo.setBoWriter(memberVO.getMemId()); // 임시로 넣어둠
+//			HttpSession session = req.getSession();
+//			DDITMemberVO memberVO = (DDITMemberVO)session.getAttribute("SessionInfo");
+//			if(memberVO != null) {
+//				noticeVo.setBoWriter(memberVO.getMemId()); // 임시로 넣어둠
+			
+				User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+				
+				noticeVo.setBoWriter(user.getUsername());
 				ServiceResult result = noticeService.insertNotice(noticeVo, req);
 				if(result.equals(ServiceResult.OK)) {
 					goPage = "redirect:/notice/detail.do?boNo="+noticeVo.getBoNo();
@@ -66,10 +69,10 @@ public class NoticeInsertController {
 					model.addAttribute("message", "서버에러, 다시 시도해주세요!");
 					goPage = "notice/form";
 				}				
-			}else {
-				ra.addFlashAttribute("message","로그인 후에 사용 가능합니다!");
-				goPage = "redirect:/notice/login.do";
-			}
+//			}else {
+//				ra.addFlashAttribute("message","로그인 후에 사용 가능합니다!");
+//				goPage = "redirect:/notice/login.do";
+//			}
 		}
 		return goPage;
 	}
