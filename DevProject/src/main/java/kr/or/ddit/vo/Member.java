@@ -15,7 +15,7 @@ import lombok.Data;
 
 @Data
 public class Member {
-	@NotBlank(message = "너 이름없냐? --")
+	@NotBlank(message = "이름이 비었잖아 --")
 	@Size(max = 3)
 	private String userName = "hong";
 	
