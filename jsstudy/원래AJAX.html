@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<body>
+    <button onclick="ajax()" > Ajax</button>
+</body>
+<script>
+    // DRY -> Do not Repeat Yourself(반복하지마셈)
+    // KISS -> Keep It Simple, Stupid(심플하게 해, 바보야!)
+
+    function callAjax(){
+        $.ajax({
+            method: "get",
+            url: "/jsstudy/data.json",
+            dataType:"json",
+            success: function(resp){
+            console.log(); ("넘겨받은 값은: ",resp);
+            }
+        })
+    }
+
+    var $ = {};
+    //jiwan.변수명 = 값
+
+    // 매개변수를 갯수에 상관없이 편하게 편하게
+    $.ajax = function(pOption){
+        // 동기와 비동기?
+        // 비동기는 혼자 일할수 없음(심부름꾼 필요)
+        xhr = new XMLHttpRequest(); // 심부름꾼 생성(전역 변수로 쓰면 효율 구림) 
+        // 효율성 떄문에 비동기를 권장
+        // 하지만 동기도 필요할 때가 있음(보통 공유자원이라 부르는 것을 사용할 때)
+        xhr.open("pOption_method","pOption_url",true); // 심부름꾼이 갔다올곳 지정 //true: 비동기로하겠다, false: 동기로 하겠다
+    
+    xhr.onreadystatechange = function(){ // 심부름꾼 모니터링
+        // 우린 중간 상태는 관심없음, 오직 끝난 것만 관심!
+        if(xhr.readyState == 4 && xhr.status == 200){ // 4가 심부름 꾼이 일이 끝났다는 것을 의미 /xhr.status: 서버쪽에 일이 끝났는지 확인
+            //console.log(xhr.responseText);
+            if(pOption.dataType="json"){
+                pOption.success(JSON.parse(xhr.responseText))
+            }else{
+                pOption.success(JSON.parse)
+            }
+            p_cd(chr.responseText)
+            alert("ㅋㅋㅋㅋㅋㅋㅋㅋ");
+        }
+    }
+    xhr.send(); // 일을 실행
+    alert("전 언제 떠용?") // 비동기로하면 각자 일을 하기때문에 얘가 위의 alert보다 먼저뜸
+                           // 동기로 하면 위의 일이 끝나기 전까지 시작하지 않음(위의 alert가 먼저뜸) 
+    }
+</script>

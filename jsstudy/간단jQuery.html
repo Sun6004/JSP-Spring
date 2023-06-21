@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<body>
+    <div class="merong fbi">앙</div>
+    <div class="merong">잉</div>
+    <div class="merong fbi">옹</div>
+    <div class="merong">웅</div>
+    <div class="merong">엥</div>
+</body>
+<script>
+    // class : 사용자 정의 Data타입
+    
+    // 즉각 실행 함수
+    const aaa = 1+2+4-3; // 표현식 : 컴퓨터가 연산함
+   
+    //var ggg = "zxcz";  // 실제 전역변수 선언은 window 객체에 속성을 추가하는 것과 같음
+    //alert(window.ggg);
+    window.kgb= function(){alert("나 진현성!")};
+    kgb(); // 함수를 선언하는 것은 window객체의 메소드를 추가하는 것과 같음!
+   
+    // var $; : window.$ 윈도우 객체에 속성을 추가하는 것과 같음
+    +-!function(arg){ //함수 규칙으로 만들어줘야됨 () 나 ! 를 쓰기로 약속함 다른거쓰면 욕먹음
+        var $ = function(pSel){
+            return new MyDom(pSel);
+        }
+        
+        // function을 class의 의미로 쓰기
+        var MyDom = function(pSel){
+            var elems = document.querySelectorAll(pSel);
+            // jQuery는 선택된 DOM요소를 자신의 속성으로 옮겨 담음
+            // 왜? 자신의 메서드에서 편하게 접근하기 위해서
+
+            this.length = elems.length; // 자신의 속성 length추가
+            for(let i=0; i<elems.length; i++){ // 옮겨 담기
+                this[i] = elems[i];
+            }
+
+            return this; // class의 의미로 쓰면 요게 생략되어 있음, 명시적 표현(안쓰면 자동으로 들어감)
+        }
+
+        // MyDom.prototype.method = function(){};
+        window.$=$; // 전역변수 $와 지역변수 $가 같은 곳을 가르킴
+        $.fn =  MyDom.prototype; // $ .fn과 MyDom.prototype이 같은 곳을 가르킴
+    }(); 
+
+    //jquery는 서서히 떠나가지만 jQuery가 남긴 것은 계속 활용되고 있음!
+    // jQuery 코어를 간략버전으로 만들어서 이해를 해 봅시다
+
+   
+
+   
+
+    //var divs = new MyDom(".merong");
+    var divs = $(".merong.fbi");
+    console.log("체크: ",divs);
+</script>

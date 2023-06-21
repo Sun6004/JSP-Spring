@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<script>
+    // JSON(JavaScript Object Notion)거의 데이터통신 표준 포맷
+
+    let name = "merong";
+    //var jungsu = {  // new Object()
+      //  name, //(name : name) // 속성명은 변수처리 안됨 (문자열 처리되기 떄문에)
+        //"role": "개그맨",
+        //songs:["뽀뽀뽀","뽀로로"]
+    //};
+
+   // var jungsu = {  // new Object()
+   //     name, //(name : name) // 속성명은 변수처리 안됨 (문자열 처리되기 떄문에)
+   //     "role": "개그맨",
+   //     songs:["뽀뽀뽀","뽀로로"]
+  //  };
+   
+  // 배열식 접근법 -> 중요! -> 무조건 연습(연봉많이올라감)
+    var name2 = "ㅋㅋㅋㅋ";
+    var jungsu = {  
+        [name2]: "정수2",
+        ["1"]: "개그맨2",
+        ["2"]: ["뽀뽀뽀2","뽀로로2"],
+    };
+    //jungsu.3 = "ppp"; : 이건 변수 선언 규칙 위반 (숫자를 변수명이 시작될 수 없음)
+
+    console.log(jungsu);
+    console.log(jungsu[1]);
+    console.log(jungsu[2]);
+</script>
+
+<body>
+    <div></div>
+    <h1 id="dajim">난 코딩 빡고수!</h1>
+</body>
+<script>
+    //document.querySelector("#dajim").style.color="red";
+    var color = "color";
+    document.querySelector("#dajim").style[color]="blue";
+
+    color = "background-color"
+    document.querySelector("#dajim").style[color] = "yellow";
+
+
+</script>
+</html>

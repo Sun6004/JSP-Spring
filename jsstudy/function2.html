@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script>
+    // return 아무거나 가능; // 추천하진 않음!
+    const cal = function(pOp){
+        if(pOp == '+'){
+            return function(pA, pB){
+                return pA + pB;
+            }
+        }
+        if(pOp == '-'){
+            return function(pA,pB){
+                return pA - pB;
+            }
+        }
+        if(pOp == 'x'){
+            return function(pA,pB){
+                return pA * pB;
+            }
+        }
+    }
+    alert( cal('-')(cal('+')(3,7),4) );
+</script>

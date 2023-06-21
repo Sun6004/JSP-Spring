@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<script>
+    //복사와 참조 모르면 개발자 못함!
+    // call by value, call by reference
+    // 원시타입(primitive)는 복사, 객체(Object)는 참조(Reference)로 동작!
+    // 원시타입: String.number, boolean..
+    // 객체: 배열, JSON, 함수
+    // "use strict"; //엄격 모드 적용 : 변수선언 안하면 에러남
+    var aaa = "메롱";
+    var bbb = aaa;
+
+    bbb = "안메롱";
+    //alert("체크: " + aaa); // 복사되었기 때문에 메롱이 뜸 
+
+    var black = {
+        name: "제니"
+    };
+
+    var pink = black;
+    pink.name = "로제";
+
+   // alert("체크: " + black.name); // 이건 로제가 뜸 왜? black와 pink는 같은곳을 가리키는 포인터!(참조)
+</script>
+<body>
+    <input type="text" name="" id="merong" value="흥">
+    
+</body>
+<script>
+    var test = document.querySelector("#merong");
+    //alert(typeof(test));
+    test.value = "ㅗ";
+
+    var ggg = "roze man man se!"; // 원시타입 문자열(string)
+    //var gg = new String("kgb");
+    // 원시타입에 .을 붙이는 순간 Wrapper 객체로 자동으로 봐뀜
+    alert(ggg.substring(0,5)); // 왜가능?
+
+    var num = "272727272";
+    alert(num.toLocaleLowerCase);
+    alert(Number.MAX_SAFE_INTEGER);
+
+</script>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script>
+    // 자동 형변환 문자열은 ""만 false, 나머지는 전부 true
+    // 숫자는 0만 false고 나머지는 전부 true;
+    // object([], {})는 비었든 안 비었든 무조건 true(박스는 존재하기 때문)
+    var aaa = !0; // true의 변칙 표현 글자수를 줄이기 위함
+    if({}){
+        alert("zzzz");
+    }
+
+    const test = function(pArg){
+        pArg();
+       /*  return "kgb"; */
+        //alert(typeof(pArg));
+    }
+
+/*     test(272);
+    test("e7e");
+    test([1,2,3]);
+    test({name: "정수"});
+    test(function(){}); // 이넘이 젤 많이 사용됨! (callback이라 부름 -> 비동기 덕분에 더 인기!) */
+
+    alert(test(function(){
+        alert("hi");
+    }))
+
+    //정식 선언법
+    /*   순서가 틀려도 실행되는게 맘에 안들다고 잘안씀 
+    function test(){ // hoisting(호이스팅 -> 선언부만 맨 위로 올림 -> 성능향상)
+        return"asd"; //작성하지 않아도 생략되어있음
+    } */
+    
+    // 함수 선언 표현식
+    // 표현식: 1+2+3 -4 -6(연산을 통해 한개의 결과가 도출되는것)
+    //const test = function(){return "zzz"; } //임마는 alert가 더 위에있으면 에러남
+    //alert(test());
+
+    
+</script>
+<!-- 
+web Server      |       WAS
+────────────────────────────────────────
+apache          |      Tomcat
+────────────────────────────────────────
+java 엔진x      |      java엔진 있음
+────────────────────────────────────────
+이미 만들어진걸 |       요청을받으면 만들어 줄 수 있음 
+제공만 가능     | 
+
+
+Java와 js의 차이
+정적언어와 동적언어
+-->

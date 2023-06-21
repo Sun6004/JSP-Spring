@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script>
+    // $.each를 만들어보자(콜백에 익숙해지기)
+    
+    const $ = {}; // 네임스페이스용 빈 객체
+    $.each = function(pArg, pCallback){ // $.each(배열, 콜백함수)
+        if(Array.isArray(pArg)){    // 첫 번쨰 매개변수가 배열이 왔을 때
+            for(let i=0; i<pArg.length; i++){
+                pCallback(i, pArg[i]);
+            }
+        }else{
+            for(let attr in pArg){  // 첫번쨰 매개변수가 배열이 아닐 때(그냥 Object)
+                pCallback(attr, pArg[attr]);
+            }
+        }
+    }
+
+    // callBack함수를 사용하는게 있어 보인다고 해서 무조건 쓰는건 좋지 않음
+    // 상황과 맥락에 맞게, break가 필요하다면, 단순 for문 직접 사용해야 함!
+    $.each(["a","b","c"], function(pInx, pVal){
+        alert(`${pInx} => ${pVal}`);
+    });
+
+    $.each({name:"정수", age:26, pos:"흥!"}, function(pAttr, pVal){
+        alert(`${pAttr} => ${pVal}`);
+    });
+
+</script>
