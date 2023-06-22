@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<body>
+    <button id="jungsu">click</button>
+</body>
+<script>
+    // call, apply둘중 하나와 bind를 꼭 기억해야댐!
+const mJungsu = document.querySelector("#jungsu");
+var josh={
+    name:"조성희",
+    exp:"진지"
+}
+
+function fCheck(pName){
+    alert(pName+ "씨 왜눌러?"+this.name + this.exp);
+}
+// 이런 경우에 사용하면 좋음, 특히 유지보수에서 이런게 필요한 상황을 만나는데
+// bind를 모르면 소스 전체 형식을 고쳐야 함.
+// bind 사용법 자체는 call과 똑같음. 동작이 다름
+// bind는 내부적으로 새로운 함수를 만들어서 해당 함수의 포인터(함수이름)만 리턴해줌
+mJungsu.addEventListener("click", fCheck.bind(josh,"홍길동")); // fCheck() : ()를 붙이면 클릭하지않아도 실행됨
+// this(이것)
+// JS를 함수기반 언어인 듯 보이지만, 실제는 객체 지향 언어이다
+
+/* const fthis = function fthis(pArg,pArg2){ // 함수 선언 -> window 객체의 메서드 선언
+    console.log("this", this,"매개변수",pArg,pArg2); //window?
+    // this가 맥락(context)에 따라 달라짐
+    // js 개발자들의 발작버튼을 누름 못쓰겠다!
+    // 그래서 this를 직접 제어할 수 있게, call, apply, bind를 만들어 줌
+}
+
+var josh={
+    name:"조성희",
+    exp:"진지"
+}
+fthis.call(document,"전지혜로워용","zxc");
+fthis.apply(); // call하고 똑같은데, 매개변수들을 무조건 배열에 담아서 1개씩 보내야함.
+fthis.apply(josh,["zxc","asd","qwe"]);
+
+josh.merong = fthis; // 참조 */
+
+//josh.merong();
+
+/* fthis(); //window.fthis(); window가 생략되어 있음
+
+var gg = "z";  // 변수선언 -> window 객체의 속성 선언
+alert(window.gg); */
+</script>

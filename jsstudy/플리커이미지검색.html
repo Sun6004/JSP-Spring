@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="sch" value=""><input type="button" id="btn" value="검색"><br> <br> <hr>
+    <div id="disp"></div>
+    <script>
+        const disp = document.querySelector('#disp');
+        const sch = document.querySelector('#sch');
+        const btn = document.querySelector('#btn');
+
+        const url1 ="https://www.flickr.com/services/feeds/photos_public.gne?tags=";
+        const url2 ="&format=json";
+
+        btn.addEventListener("click", function(){
+            let schWord =sch.value;
+            let realUrl = `${url1}${schWord}${url2}`;
+            console.log("체크: "+realUrl); //디버깅용
+
+            let myScript = document.createElement("script");
+            myScript.src = realUrl;
+            
+            document.head.appendChild(myScript);
+        })
+
+        // 호출하는 함수를 미리 만듬 - 멋진 말로 JSONP(JSON Padding)라고 부름
+        function jsonFlickrFeed(arg){
+            console.log("arg: ", arg);
+            disp.innerHTML ="";  // $("#disp").empty
+            let items = arg.items;
+            for(let i=0; i<items.length; i++){
+                let imgURL = items[i].media.m;
+                let imgTag = document.createElement("img"); // $("<img>")
+                imgTag.width = 180;
+                imgTag.height = 180;
+                imgTag.src = imgURL;
+                disp.appendChild(imgTag); // 실제 document에 추가
+            }
+        }
+
+    </script>
+    <!-- <script src="https://www.flickr.com/services/feeds/photos_public.gne?tags=house&format=json"></script> -->
+</body>
+</html>

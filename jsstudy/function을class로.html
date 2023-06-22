@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script>
+    // 자바스크립트 function키워드는 class의 의미도 가지고 있음
+    // 실제 class 키워드가 추가되었지만, 내부적으로 function키워드로
+    // 바뀌어 실행되기 떄문에 순수 자바 스크립트(바닐라)에선 그냥
+    // function 키워드를 쓰는 것이 일반적!
+
+    // 배열을 직접 한번 만들어보자!
+    function arr(){
+        this.length = 0; // 초기값 0
+        
+        return this; // 생략가능, class의 의미로 사용될땐 이놈이 생략되어 있음
+    }
+    
+    // 메서드 추가
+    arr.prototype.push = function(pElem){
+        this[this.length] = pElem;
+        this.length++;
+        return this; // 이걸 붙이면 메서드 체인닝이 됨
+    }
+
+    
+    arr.prototype.forEach = function(pCallbak){
+        for(let i=0; i<this.length; i++){
+            pCallbak.call( this,this[i],i);
+        }
+        return this; // 메서드 체이닝
+    }
+  
+    // map하고 reduce는 빅데이터 처리에서 많이 쓰는 메서드!(보통 맵이라고 짧게 부름!)
+    arr.prototype.map = function(pCallbak){
+        for(let i=0; i<this.length; i++){
+            this[i] = pCallbak.call(this,this[i],i)
+        }
+        return this; // 메서드 체이닝!
+    }
+
+    // 클래스의 메서드 공유영역(prototype), 사실 속성을 넣어도 되는데 의미없음
+
+    let aaa = new arr();
+    aaa.push("asd").push("qwe").push("zxc").push(["1","2","3"]);
+    aaa.map(function(val,idx){
+        if(val == "asd"){
+            return val + "미워";
+        }
+        if(idx == 2){
+            return val + idx + "좋아";
+        }
+        return val; // if문에 걸리지 않는 건 넘겨받은대로 리턴해줘야됨 안하면 undifind
+    })
+    console.log("체크", aaa);
+    
+  /*   aaa.forEach(function(pVal,pInx){
+        console.log("this 체크: ",this);
+        alert(`${pInx} ==> ${pVal}`);
+    }).forEach(function(val,idx){
+        this[idx] = this[idx] + "!!!!!";
+    }).push("ㅋㅋㅋㅋㅋㅋㅋㅋ");
+    console.log("체크: ", aaa); */
+
+   /*  let bbb = new arr();
+    bbb.push("zxc")
+    console.log("bbb: ", bbb); */
+
+    // class: 사용자 정의 data타입
+</script>

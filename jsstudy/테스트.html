@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<script>
+    // callback 연습(최소3일)
+    
+    // 자바의 ArrayList를 자스로 만들어 보자, 배열과 거의 같음
+    function ArrayList(){
+        this.length=0;
+        return this;
+    }
+
+    //add
+    ArrayList.prototype.add = function(ele){
+        this[this.length] = ele;
+        this.length++; // 초기값이 없으면 NaN(Not a Number)
+        return this; 
+    }
+
+    //get
+    ArrayList.prototype.get = function(idx){
+        return this[idx];
+    }
+
+    //set
+    ArrayList.prototype.set = function(idx,val){
+        this[idx] = val;
+        return this;
+    }
+
+    //remove
+    ArrayList.prototype.remove = function(idx){
+        for(let i=idx; i<this.length-1; i++){
+            this[i] = this[i+1]; // idx부터 뒤에값을 앞으로 땡기기
+        }
+        delete this[this.length-1]; //마지막꺼 지우기
+        this.length --;
+        return this;
+    }
+
+    //claer
+    ArrayList.prototype.clear = function(){
+        for(let i=0; i<this.length; i++){
+            delete this[i]
+        }
+        this.length =0; //다시 초기화
+        return this;
+    }
+
+    //size
+    ArrayList.prototype.size = function(){
+        return this.length;
+    }
+
+    var testArrayList = new ArrayList();
+    testArrayList.add("로제").add("제니").add("리사").add("지수");
+    console.log("체크: ", testArrayList);
+
+    console.log("체크2: ", testArrayList.get(2));
+    
+    testArrayList.set(1,"zzz");
+    console.log("체크3: ", testArrayList);
+   
+    testArrayList.remove(1);
+    console.log("체크4: ", testArrayList);
+   
+    console.log("체크5: ", testArrayList.size());
+    
+    testArrayList.clear();
+    console.log("체크6: ", testArrayList);
+    
+
+</script>

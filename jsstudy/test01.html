@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script>
+    const board= function () {
+    this.title = ["test1","test2","test3"];
+    this.writer = "";
+		this.content = "";
+    this.count= 0;
+};
+
+board.prototype.addCount = function (cnt) {
+    this.count += cnt;
+    return this;
+};
+
+board.prototype.subCount = function (cnt) {
+    this.count-= cnt;
+    return this;
+};
+
+const board2 = new board();
+
+board2.addCount(5).subCount(1).addCount(3);
+
+console.log("체크: ", board2.count);
+</script>
