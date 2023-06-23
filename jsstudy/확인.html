@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1" style="width: 300px; height: 200px;">
+        <tbody id="tb">
+        <tr>
+            <th onclick="ftest()">이름</th>
+            <th onclick="ftest()">나이</th>
+            <th onclick="ftest()">별명</th>
+        </tr>
+        <tr>
+            <th>김민정</th>
+            <th>20</th>
+            <th>정민</th>
+        </tr>
+        <tr>
+            <th>박승우</th>
+            <th>30</th>
+            <th>우승</th>
+        </tr>
+        <tr>
+            <th>정은지</th>
+            <th>26</th>
+            <th>지은</th>
+        </tr>
+    </tbody>
+    </table>
+</body>
+<script>
+    // 유사배열을 배열로 변환!
+    function toArray(arg){
+        var arr = [];
+        for(let i=0; i<arg.length; i++){
+            arr.push(arg[i]);
+        }
+        return arr;
+    }
+    //위의 배열로 전환하는 코드를 Array.form()메서드로 지원하고 있음(유사배열을 배열로 바꿔줌 원리는 위 toArray함수)
+    //const trs = Array.from(document.querySelectorAll("tr"));
+    let trs = document.querySelectorAll("tr");
+    const ttbody = document.querySelector("tbody");
+
+    // 이미 존재하는 객체를 appendChild하면 이동해버림!
+    // 잘 안쓰게되면 동적 바인딩을 너무 많이 써야 해서 이벤트 처리가 힘들어짐!
+    ttbody.appendChild(trs[1]);
+
+    let arr2 = toArray(trs);
+    console.log(arr2.sort());
+    
+    function ftest(){
+        trs.sort(function(a,b){
+            return a.children[1].innerHTML - bchildren[1].innerHTML
+        })
+        for(let i=0; i<trs.length; i++){
+            ttbody.appendChild(trs[i]); //tbody에 넣기
+        }
+    }
+</script>
+</html>
