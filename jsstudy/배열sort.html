@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script>
+    // 배열 클래스
+    function myArray(){
+        this.length = 0;
+    }
+
+    // push 메서드
+    myArray.prototype.push = function(ele){
+        this[this.length] = ele;
+        this.length++;
+        return this; //메서드 체이닝
+    }
+
+    //sort 메서드
+    myArray.prototype.sort = function(pCallback){
+        for(j =0; j<this.length; j++){
+            for(let i = j+1; i < this.length; i++){
+                if(pCallback(this[j], this[i]) > 0){
+                    let temp = this[j];
+                    this[j] = this[i]
+                    this[i] = temp;
+                }
+            }   
+        }
+    }
+    let test = new myArray();
+    test.push(2).push(4).push(7).push(1).push(9);
+    test.sort(function(a,b){
+        return a-b;
+    })
+    console.log("체크: ",test);
+    // 배열 객체에 short가 제공됨
+    //const testArr1 = [1,4,6,7,2,3];
+    const testArr1 = ["zxc","asd","qwe","dfg","vvv","bnm"];
+
+    alert("asd"-0);
+    alert("asd"<"zxc"); //크기 비교는 내부적으로 아스키코드, 유니코드 값으로 비교됨
+    alert("체크: "+ testArr1.sort());
+    alert("체크: "+ testArr1.sort(function(a,b){
+        if(b>a) return 1;
+        if(b == a) return 0;
+        if(b<a) return -1;
+    }));
+
+/*     // 스위치(switch)
+    var a = 337;
+    var b = 272;
+
+    var temp = a;
+    a=b;
+    b = temp;
+
+    alert(a+" "+b) */
+
+    // sort를 알려면 정렬 -> 최대값, 최소값
+   /*  let testArr = [3,6,1,2,8,7,2,3,4];
+    // 버블정렬(정렬중에 젤쉬움)
+    let max = testArr[0]; // 첫번째 값이 제일 크다고 가정
+    
+    for(j =0; j<testArr.length; j++){
+        for(let i = j+1; i < testArr.length; i++){
+        if(testArr[j] > testArr[i]){
+            let temp = testArr[j];
+            testArr[j] = testArr[i]
+            testArr[i] = temp;
+        }
+        //console.log(testArr); //어떻게 돌아가는지 눈으로 확인하기
+    }
+    } */
+   // alert(testArr);
+
+
+</script>
