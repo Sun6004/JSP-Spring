@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<body>
+    <div id="disp"></div>
+</body>
+<script>
+    //Uncaught TypeError: Cannot read properties of null (reading 'appendChild')
+    //앞의 것을 찾을수 없어서 나는 오류(of null)의 appendChild를 찾을 수 없다
+    let disp = document.querySelector("#disp");
+    disp.appendChild(document.createElement("h1"));
+
+    const debug = false; //디버깅용 로그 제어/ 로그를 볼 필요가있을때 얘하나만 true로 봐꿔주면 됨
+
+    //console.log 주의 (객체일때 참조방식)
+    //로그를 순서대로 하나씩 찍지않으면 밑에서 봐뀐값도 위 로그에 찍힘
+    let testObj = {
+        name: "로제",
+        age: 26
+    }
+
+    if(debug){
+        // 고수들은 객체들을 복사
+        // 객체를 복사하니깐 메모리를먹음(디버깅때만 사용)
+        let copyObj = structuredClone(testObj);
+        console.log("체크: ",copyObj);
+    }
+    
+    testObj.name="제니";
+    testObj.age=27;
+
+    if(debug){
+        let copyObj2 = structuredClone(testObj);
+        console.log("체크: ",copyObj2);
+    }
+</script>
