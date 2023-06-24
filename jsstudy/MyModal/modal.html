@@ -5,15 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="myModal.css" />
+    <style>
+        #cont{
+            border: 1px solid skyblue;
+            left: 15%;
+            bottom: 10%;
+        }
+        #modalFooter{
+            bottom: 100px;
+        }
+    </style>
 </head>
 <header>
     <button onclick="openModal()" id="click">click me</button>
 </header>
 <body>
-<div id="myModal">
+    <div id="myModal">
+        <div id="modalHeader">       
+        </div>
+        <div id="content">
+            <div id="menu">
+                <button onclick="modalClose()">X</button>   
+                <hr>
+            </div>
+            <div>
+                <img src="zxc.png" alt="asd.png" />
+                <h1>asdadadadsa</h1> <br>
+                <button onclick="openModalSide()" id="click">asds</button>
+            </div>
+            <div id="modalFooter">
+            </div>
+    </div>
+    <div id="modalFooter">
+
+    </div>
+</div>
+
+<div id="modalSide">
+    <div id="modalHeader">       
+    </div>
     <div id="content">
         <div id="menu">
-            <button onclick="modalClose()">X</button>   
+            <button onclick="closeModalSide()">sadasd</button>   
             <hr>
         </div>
         <div>
@@ -22,9 +55,10 @@
         </div>
     </div>
     <div id="modalFooter">
-
+        <input type="text" id="cont"><input type="button" id="btn" value="전송">
     </div>
 </div>
+
 <div id="wrapper">
     
 </div>

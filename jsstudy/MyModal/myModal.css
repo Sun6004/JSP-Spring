@@ -1,7 +1,8 @@
 
 #myModal{
+    border-radius: 5%;
     position: fixed;
-    right: 10%;
+    right: 0%;
     top: -100%; /* 초기에 창이 위에 숨겨져 있도록 설정 */
     width: 35vw;
     height: 85vh;
@@ -9,6 +10,18 @@
     z-index: 100;
     display: none;
     animation: slideDown 0.6s ease-in-out forwards; /* 애니메이션 효과 추가 */
+}
+#modalSide{
+    border-radius: 5%;
+    position: fixed;
+    right: -100%;
+    top: 0%; /* 초기에 창이 위에 숨겨져 있도록 설정 */
+    width: 35vw;
+    height: 85vh;
+    background-color: rgb(207, 205, 85);
+    z-index: 100;
+    display: none;
+    animation: openModalSide 0.6s ease-in-out forwards; /* 애니메이션 효과 추가 */
 }
 #content{
     margin-top: 10%;
@@ -44,6 +57,24 @@ button{
     }
     100% {
         top: -100%; /* 최종 위치 */
+    }
+}
+
+@keyframes openModalSide {
+    0% {
+        right: -100%; /* 초기 위치 */
+    }
+    100% {
+        right: 0%; /* 최종 위치 */
+    }
+}
+
+@keyframes closeModalSide {
+    0% {
+        right: 0%; /* 초기 위치 */
+    }
+    100% {
+        right: -100%; /* 최종 위치 */
     }
 }
 
