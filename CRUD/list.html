@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #modal{
+            position: fixed;
+            left: 0px; top: 0px;
+            width: 100vw; height: 98vw;
+            background-color: aliceblue;
+            display: none;
+        }
+        #mCont{
+            width: 60%;
+            height: 80%;
+            margin: 20px auto;
+            background-color: rgb(205, 173, 235);
+        }
+    </style>
+</head>
+<body>
+    <div id="modal">
+        <div id="mCont">
+            <form method="get" action="">
+                <!--disabled 처리하면 서버로 넘어가지 않음. hidden이 필요-->
+                <h1>JS와 localStorage로 만드는 게시판</h1>
+                <!--사용자에겐 안보여주고 프로그램상 필요한 값 숨겨둠-->
+                <input type="hidden" name="num" value="">
+                제목: <input type="text" name="title" value=""  ><br>
+                글쓴이: <input type="text" name="writer" value="" disabled><br>
+                내용 <br>
+                <textarea name="cont" cols="30" rows="10" ></textarea><br>
+                관련언어(3개까지만) <br>
+               
+                JS <input type="checkbox" name="skill" value="js" onclick="chk(this)">
+                JAVA <input type="checkbox" name="skill" value="java"onclick="chk(this)">
+                html <input type="checkbox" name="skill" value="html"onclick="chk(this)">
+                python <input type="checkbox" name="skill" value="python"onclick="chk(this)">
+                C <input type="checkbox" name="skill" value="C" onclick="chk(this)"> <br>
+    
+                <button type="submit"onclick="fsubmit('mod')">수정</button>  &nbsp; &nbsp;
+                <button type="submit" onclick="fsubmit('del')">삭제</button>
+            </form>
+        </div>
+    </div>
+    <div id="wrapper">
+        <h1>어글리 게시판</h1>
+        <div id="list">
+                
+        </div>
+    </div>
+<script>
+    const myForm = document.forms[0]; //id를 안주고 이렇게써도됨
+    function fsubmit(act){
+        event.preventDefault(); // submit의 built-in기능(전송) 막기
+        if(act == 'mod'){
+            myForm.action = "modify_action.html";
+        }
+        if(act == 'del'){
+            myForm.action = "del_action.html";
+        }
+        myForm.submit(); // 막아놨기 때문에 직접 전송
+    }
+
+    const modal = document.querySelector("#modal");
+    const tblName="uglyGesi" // localStorage 테이블 키 값
+    //localStorage 미리 읽어오기
+    let dataArr = JSON.parse(localStorage.getItem(tblName)); // 데이터 배열
+    const gList = document.querySelector("#list");
+
+
+    function fread(pNum){
+        //alert(pNum);
+        event.preventDefault(); //built-in 기능 막기
+        document.querySelector("[name=num]").value = pNum;
+        // 빼먹는 사람들이 있어서 변칙적으로 그냥 <a href="#">를 붙이라고함(페이지 내 이동)
+        modal.style.display="block";
+        for(let i=0; i<dataArr.length; i++){
+            if(dataArr[i].num == pNum){
+                document.querySelector("[name=title]").value = dataArr[i].title;
+                document.querySelector("[name=writer]").value = dataArr[i].writer;
+                document.querySelector("[name=cont]").value = dataArr[i].cont;
+                
+                //체크박스 어케할거임?
+                // css 선택자를 잘 쓰면 프로그램이 심플하고 명확해짐!
+                let ckArr = dataArr[i].sk;
+                for(let j=0; j < ckArr.length; j++){
+                    document.querySelector(`[value=${ckArr[j]}]`).checked=true;
+                }
+                break; // 이런걸 안빼먹는게 중요! 여기선 return써도됨
+            }
+        }
+    }
+
+    function fList(){
+        let tblStr = `<table border = 1>`
+        tblStr += `<tr><th>넘버</th><th>제목</th><th>지은이</th><th>날짜</th></tr>`
+        for(let i=0; i<dataArr.length; i++){
+            tblStr += `<tr>`;
+            tblStr += `<td>${dataArr[i].num}</td>`;
+            //tblStr += `<td><a href="read.html?num=${dataArr[i].num}">${dataArr[i].title} </a></td>`;
+            tblStr += `<td><a href="#" onclick="fread('${dataArr[i].num}')" >${dataArr[i].title} </a></td>`;
+            tblStr += `<td>${dataArr[i].writer}</td>`;
+            tblStr += `<td>${dataArr[i].date}</td>`;
+            tblStr += `</tr>`; 
+        }
+        tblStr += `</table>`;
+        tblStr += `<br><a href="write.html">새 글쓰기</a>`
+        gList.innerHTML = tblStr; 
+    }
+    window.addEventListener("DOMContentLoaded", function(){
+        fList();
+    }); // 태그 해석만 끝나면 발생
+    //window.addEventListener("load", fList);           //태그 해석 + 이미지 로딩완료에 발생
+
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script src="./jsp.js">   
+</script>
+
+<Script>
+    let num = request.getParam("num");
+    let title = request.getParam("title");
+    let cont = request.getParam("cont");
+    let skills = request.getParameterValues("sk");
+    let date = (new Date()).toLocaleDateString();
+
+    const name = "uglyGesi"
+    let dataArr = JSON.parse(localStorage.getItem(name));
+
+    for(let i =0; i<dataArr.length; i++){
+        if(dataArr[i].num == num){
+            dataArr[i].title = title;
+            dataArr[i].cont = cont;
+            dataArr[i].skills = skills;
+            dataArr[i].date = date;
+            break;
+        }
+    }
+    // 로컬 스토리지에 다시저장
+    localStorage.setItem(name, JSON.stringify(dataArr));
+    alert("수정성공");
+    location.replace("list.html");
+</Script>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="wrapper">
+        <!-- action에 서버가 아니라 html이 왔네?-->
+        <form method="get" action="write_action.html">
+            <!--disabled 처리하면 서버로 넘어가지 않음. hidden이 필요-->
+            <h1>JS와 localStorage로 만드는 게시판</h1>
+            제목: <input type="text" name="title" value="" required ><br>
+            글쓴이: <input type="text" name="writer" value="" required><br>
+            내용 <br>
+            <textarea name="cont" cols="30" rows="10" required></textarea><br>
+            관련언어(3개까지만) <br>
+           
+            JS <input type="checkbox" name="skill" value="js" checked onclick="chk(this)">
+            JAVA <input type="checkbox" name="skill" value="java"onclick="chk(this)">
+            Oracle <input type="checkbox" name="skill" value="html"onclick="chk(this)">
+            python <input type="checkbox" name="skill" value="python"onclick="chk(this)">
+            C <input type="checkbox" name="skill" value="C" onclick="chk(this)"> <br>
+
+            <button type="submit" >전송</button>  <button type="submit">다시</button>
+        </form>
+    </div>
+    <script>
+        // 체크 박스 맥스 3개까지만 체크 가능하도록 4번째껀 해제!
+        const maxCnt = 3;
+        let curCnt = 0;
+        function chk(pThis){
+            //css 선택자(pseud 선택자)사용도 한번 생각
+            //alert(document.querySelectorAll("[name=n]"))
+
+            //alert(pThis.checked);
+            if(pThis.checked){
+                curCnt ++;
+            }
+            if(!pThis.checked){
+                curCnt --;
+            }
+            if(curCnt >= maxCnt){
+                alert("그만눌러");
+                pThis.checked = false; //강제 체크해제, 마지막꺼
+                curCnt --;
+            }
+        }
+    </script>
+</body>
+</html>

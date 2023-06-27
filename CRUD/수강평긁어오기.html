@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script>
+    //서버가 없으면 플러그인이 꼭 있어야함(ajax cross오리진 문제)
+    var contents = []; 
+    var xhr = new XMLHttpRequest();
+    xhr.open("get", "https://www.ddit.or.kr/review?page=1", false); //일단 동기식
+    xhr.onreadystatechange = function(){
+        if(xhr.readyState == 4 && xhr.status == 200){
+            //console.log(xhr.responseText);
+            let schRegExp = new RegExp('<p class="review_con">.*</p>','g');
+            schRslt =  xhr.responseText.match(schRegExp); // 100개
+            //console.log("누르고 체크: ", schRslt);
+            for(let i=0; i<schRslt.length; i++){
+                contents.push(schRslt[i].replace('<p class="review_con">',"").replace("</p>",""));
+            }
+            console.log(contents);
+        }
+    }
+    xhr.send();
+
+</script>

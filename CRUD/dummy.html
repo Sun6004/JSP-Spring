@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script src="./ranUtil.js"></script>
+<div id="disp"></div>
+<script>
+
+const tblName = "uglyGesi";
+var dummyArr = [];
+
+for(let i=1; i<=108; i++){
+    let gul = {
+        num: i,
+        title: RanUtil.ranTitle(),
+        writer: RanUtil.ranFullName(),
+        cont : RanUtil.ranContent(),
+        skills : RanUtil.ranArrLength(["js","java","oracle","html","css"],2,3),
+        date : RanUtil.ranDate()
+    }
+    dummyArr.push(gul);
+}
+
+localStorage.setItem(tblName, JSON.stringify(dummyArr));
+
+</script>
+
+★ Cross-Origin -> Ajax(제약사항) - Ajax에서는 데이터를 가공 조작이 가능하기때문에 안줌
+    Ajax 에서 Cross-Origin을 해결하는법: 다른 서버로 우회해서 요청해야함
+
+Origin => 프로토콜 -> 도메인명(서버명) -> 포트번호 
+            http://    localhost    :    8080
+            https://    localhost    :    8080
+            http://    localhost    :    80
+            셋중하나가 다르면 Cross-Origin
+
+

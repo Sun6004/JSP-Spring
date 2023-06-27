@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script src="./jsp.js">   
+</script>
+
+<Script>
+    let num = request.getParam("num");
+
+    const name = "uglyGesi"
+    let dataArr = JSON.parse(localStorage.getItem(name));
+
+    for(let i =0; i<dataArr.length; i++){
+        if(dataArr[i].num == num){
+            dataArr.splice(i,1); //요런걸 파괴적 메서드라 부름
+            break;
+        }
+    }
+    // 로컬 스토리지에 다시저장
+    localStorage.setItem(name, JSON.stringify(dataArr));
+    alert("삭제성공");
+    location.replace("list.html");
+</Script>
