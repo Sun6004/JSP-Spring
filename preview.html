@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #disp{
+            width: 250px;
+            height: 200px;
+            background-color: cadetblue;
+        }
+    </style>
+</head>
+<body>
+    <h1>이미지 미리보기</h1>
+    <div id="disp" ondragover="fdover()" ondrop="fdrop()"></div>
+<script>
+    const disp = document.querySelector("#disp");
+    function fdover(){
+        event.preventDefault();
+    }
+    // 여러파일 가져오기, 비동기가 반복문 속에 있는 건 아주 좋지않음, 머리아픔
+    // 비동기활동을 별도 함수로 뽑아내서 독립시키고, 이를 반복문 안에서 부르면 구별됨
+    function OneFileRead(pFile){
+
+    }
+
+    function fdrop(){
+        event.preventDefault();
+        var file = event.dataTransfer.files; //자동와성 안되니, 잊으면 구글검색
+        // 파일 읽기 -> 이건 항상 이따위로 쓰니 거의 세팅으로 봐도 됨
+        var fileReader =  new FileReader();
+        fileReader.onload = function(){
+            console.log("이미지 데이터: ", fileReader.result);
+            var div = document.createElement("div"); //div만들기
+            div.style.width= "90px";
+            div.style.height= "120px";
+
+            var vImg = document.createElementN("img");
+            vImg.src = fileReader.result;
+            vImg.width = 150; vImg.height = 200;
+
+            div.appendChild(vImg);
+            div.innerHTML += `<span> ${file.name} </span>`;
+            //disp.innerHTML = "";
+            disp.appendChild(vImg);
+            disp.innerHTML += file.name;
+
+        }
+        fileReader.readAsDataURL(file);
+    }
+
+    // 다른곳도 막아야 함!
+    window.addEventListener("dragover", function(){
+        event.preventDefault();
+    })
+    window.addEventListener("drop", function(){
+        event.preventDefault();
+    })
+</script>
+</body>
+</html>
