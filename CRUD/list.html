@@ -51,7 +51,33 @@
                 
         </div>
     </div>
+<script src="./jsp.js"></script>
 <script>
+    // 게시판으로 사용불가 개인페이지로 이용
+    // 페이지 나누기(외우지말고 생각하면서 하자)
+    /*
+        페이지당 몇개 글 출력?
+        전체 글수
+        페이지 수
+        페이지별로 시작 인덱스(글), 끝 인덱스(글) 배열에 담아져 있기 때문
+    */
+     const tblName="uglyGesi" // localStorage 테이블 키 값
+    //localStorage 미리 읽어오기
+    let dataArr = JSON.parse(localStorage.getItem(tblName)); // 데이터 배열
+   
+    let page = request.getParam("page");
+    if(!page){ //만약 page정보가 null이면 1페이지를 기본값으로 설정
+        page = 1;
+    }
+    const pageCnt = 10;
+    let totalCnt = dataArr.length;
+    let cnt = Math.ceil(totalCnt / pageCnt); //나머지가 생기면 반올림!
+    let startInx = (page -1)*pageCnt;
+    let endInx = startInx + pageCnt; // 반복문에 =< 가아니라 < 를쓰면 -1생략가능
+    if(endInx > (totalCnt-1)){ //마지막페이지 처리
+        endInx = totalCnt-1;
+    }
+
     const myForm = document.forms[0]; //id를 안주고 이렇게써도됨
     function fsubmit(act){
         event.preventDefault(); // submit의 built-in기능(전송) 막기
@@ -65,9 +91,7 @@
     }
 
     const modal = document.querySelector("#modal");
-    const tblName="uglyGesi" // localStorage 테이블 키 값
-    //localStorage 미리 읽어오기
-    let dataArr = JSON.parse(localStorage.getItem(tblName)); // 데이터 배열
+   
     const gList = document.querySelector("#list");
 
 
@@ -97,7 +121,7 @@
     function fList(){
         let tblStr = `<table border = 1>`
         tblStr += `<tr><th>넘버</th><th>제목</th><th>지은이</th><th>날짜</th></tr>`
-        for(let i=0; i<dataArr.length; i++){
+        for(let i=startInx; i < endInx; i++){
             tblStr += `<tr>`;
             tblStr += `<td>${dataArr[i].num}</td>`;
             //tblStr += `<td><a href="read.html?num=${dataArr[i].num}">${dataArr[i].title} </a></td>`;
@@ -107,7 +131,15 @@
             tblStr += `</tr>`; 
         }
         tblStr += `</table>`;
+
+        // 페이지 번호 출력하는 부분 추가
+        let pageStr = "";
+        for(let i=1; i <= cnt; i++){
+            pageStr += `<a href="list.html?page=${i}"> ${i} </a>`;
+        }
+        tblStr += pageStr; 
         tblStr += `<br><a href="write.html">새 글쓰기</a>`
+
         gList.innerHTML = tblStr; 
     }
     window.addEventListener("DOMContentLoaded", function(){
