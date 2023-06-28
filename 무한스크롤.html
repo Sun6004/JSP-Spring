@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<!--모바일이 나오면서 페이지 나누기의 효과가 희미해짐(손가락 터치)-->
+<script>
+    for(let i=1; i<50; i++){
+        document.write("<h1>무한 스크롤!!!!</h1>")
+    }
+    // 크롬의 문제!
+    setTimeout(function(){
+        window.scrollTo(0,0);
+    },50);
+    
+    // 스크롤 이벤트
+    window.onscroll = function(){
+        let scrollTop = document.documentElement.scrollTop;
+        let clientHeight = document.documentElement.clientHeight;
+        let scrollHeight = document.documentElement.scrollHeight;
+
+        // 스크롤바를 끝까지 내렸다면 (소수점떄문에 미묘한 오차 발생!)
+        // scrollTop + clientHeight = scrollHeight 가 되어야 함
+        // 실제는 약간의 튜닝값을 넣어서 끝까지 내리기 이전에 필요한 처리를 함.
+        const tunningVal = 50; // 50px 전에 발생
+        if((scrollTop + clientHeight) >= (scrollHeight - tunningVal)){
+            //lert("스크롤바 끝!");
+            // 실제로 여기 오는건 대부분 Ajax
+            for(let i=1; i<=10; i++){
+                var h1 = document.createElement("h1");
+                h1.innerHTML = "스크롤 안끝남!";
+                document.body.appendChild(h1);
+            }
+        }
+    }
+</script>
+</body>
+</html>

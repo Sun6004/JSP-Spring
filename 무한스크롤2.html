@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #disp{
+            border: 1px solid black;
+            height: 400px;
+            /*overflow: hidden; 자식이 부모보다 크면 숨김*/
+            overflow: auto; /* 스크롤이 생김*/
+        }
+    </style>
+</head>
+<body>
+    <div><h1>DOM에 무한 스크롤 걸기</h1></div>
+    <div id="disp">
+<script>
+    var tbl = "<table border=1>";
+    tbl += "<tbody id='tbody'>";
+    tbl += "<tr><th>이름</th><th>성격</th>"
+    for(let i =0; i <= 20; i++){
+        tbl += "<tr>";
+        tbl += `<td>asd</td><td>부끄럼쟁이${i}</td>`;
+        tbl += "</tr>";
+    }
+    tbl += "</tbody></table>"
+    document.write(tbl);
+</script>
+</div>
+<script>
+    const disp = document.querySelector("#disp");
+    const myBody = document.querySelector("#tbody");
+    function fchk(){
+        var scrollTop = disp.scrollTop;
+        var clientHeight = disp.clientHeight;
+        var scrollHeight = disp.scrollHeight;
+
+        var tunn = 50;
+        if((scrollTop+clientHeight) >= (scrollHeight-tunn)){
+            for(let i =1; i < 12; i++){
+                let tr = document.createElement("tr");
+                tr.innerHTML = `<td>zxc${i}</td><td>안부끄렁</td>`;
+                myBody.appendChild(tr);
+            }
+        }
+    }
+    disp.addEventListener("scroll", fchk);
+</script>
+</body>
+</html>
