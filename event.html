@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn1" onclick="fclick1(this)">이벤트등록법1</button>
+    <button id="btn2"><span> 이벤트등록법2</span></button>
+    <button id="btn3">이벤트등록법3</button>
+<script>
+    const btn2 = document.querySelector("#btn2");
+    const btn3 = document.querySelector("#btn3");
+
+    btn3.addEventListener("click", function(){
+        alert("3");
+    })
+
+    function fclick3(){
+        alert("33");
+    }
+    btn3.addEventListener("click", fclick3);
+
+    // 이벤트 등록법 2번: 덮어쓰게됨!(나중것만 실행)
+    btn2.onclick = function(){
+        alert("왜눌러?");
+    }
+
+    function fclick2(){
+        //target vs currentTarget을 꼭 구분해서 쓰자. 엄청난 실수를 야기할 수 있음!
+        console.log(event.target);
+        console.log(event.currentTarget); // 무조건 이벤트 걸어주는 놈
+        alert("니 누구니?");
+    }
+
+    // fclick2(): ()를 붙히면 함수호출이라 하면안됨
+    btn2.onclick = fclick2;
+
+    function fclick1(pThis){
+        alert(pThis.innerHTML);
+        alert(pThis.id);     
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+    #grand{
+        width: 300px;
+        height: 300px;
+        border: 2px solid black;
+    }
+    #mother{
+        width: 200px;
+        height: 200px;
+        border: 3px solid pink;
+        position: relative;
+        left: 50px;
+    }
+    #me{
+        width: 100px;
+        height: 100px;
+        border: 2px solid green;
+        position: relative;
+        left: 20px;
+    }
+</style>
+</head>
+<body>
+    <div id="grand" onclick="grand()">할머니
+        <div id="mother" onclick="mom()">엄마
+            <div id="me" onclick="me()">
+                나
+            </div>
+        </div>
+    </div>
+<script>
+    // 이벤트 버블링
+    function grand(){
+        alert("g");
+    }
+    function mom(){
+        event.stopPropagation(); //중요! 이벤트 캡쳐링(내 이벤트가 상위로 가지 않도록 멈춤)
+        //event.stopPropagation
+        alert("m");
+    }
+    function me(){
+        event.stopPropagation(); //중요! 
+        alert("i");
+    }
+</script>
+</body>
+</html>
