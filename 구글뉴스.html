@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="schWord" value="" onkeydown="fEnter()"/>
+    <button onclick="fgoogle()">구글뉴스 xml이라 미워</button>
+    <div id="disp"></div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/x2js/1.2.0/xml2json.min.js"></script>
+<script>
+    const myDisp = document.querySelector('#disp');
+    var x2js = new X2JS();
+
+    function fEnter() {
+        // console.log(event);
+        if(event.keyCode == 13) {
+            fgoogle();
+        }
+    }
+
+    function fgoogle() {
+        var schWord = document.querySelector('#schWord').value;
+        if(schWord == "" || schWord == null) {
+            alert("검색어를 입력해주세요!");
+            return false;
+        }
+        
+        // 구글이 막아놓아서 무료 우회서비스를 해주는 사이트(보통 요따위껄 proxy라 부름)를 이용
+        let newsURL = `https://news.google.com/rss/search?q=${schWord}&hl=ko&gl=KR&ceid=KR:ko`;
+        let url = `https://api.allorigins.win/get?url=${encodeURIComponent(newsURL)}`
+        // console.log("url",url);
+        
+        myDisp.innerHTML = "";
+        var xhr = new XMLHttpRequest(); // 심부름 아저씨 만들기
+        xhr.open("get", url, true);
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState == 4 && xhr.status == 200) {
+                let xmlStr = JSON.parse(xhr.responseText).contents;
+                // console.log(xhr.responseText);
+                // console.log(JSON.parse(xhr.responseText).contents);
+
+                // var xmlText = "<MyRoot><test>Success</test><test2><item>val1</item><item>val2</item></test2></MyRoot>";
+                var jsonObj = x2js.xml_str2json( xmlStr );
+                var news = jsonObj.rss.channel.item;  // item만 뽑기
+
+                var tblStr = "<table border=1>";
+                tblStr += "<tr><th>타이틀</th><th>링크</th><th>발행일</th></tr>";
+                for(let i=0; i<news.length; i++) {
+                    tblStr += "<tr>";
+                    tblStr += `<td>${news[i].title}</td>`;
+                    tblStr += `<td><a href="${news[i].link}">직접보기</a></td>`;
+                    tblStr += `<td>${news[i].pubDate}</td>`;
+                    tblStr += "</tr>";
+                }
+
+                myDisp.innerHTML = tblStr;
+            }
+        }
+        xhr.send();
+    }
+</script>
+</body>
+</html>
