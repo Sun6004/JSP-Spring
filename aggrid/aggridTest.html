@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ag-Grid Basic Example</title>
+<style>
+    #wrapper {
+        width:650px;
+        height:500px;
+        margin:50px auto;
+        text-align: center;
+    }
+    #myGrid {
+        height: 100%;
+    }
+    /* 헤더 텍스트 가운데 정렬 위함 */
+    .centered {
+        .ag-header-cell-label {
+        justify-content: center !important;
+    }
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/ag-grid-enterprise/dist/ag-grid-enterprise.min.js"></script>
+</head>
+<body>
+<div id="wrapper">
+    <h1>AG-Grid 꽤 잘 만들었어용</h1>
+    <div id="myGrid" class="ag-theme-alpine">
+    </div>
+    <button onclick="fExp()">내보내깅</button>
+</div>
+<script>
+const columnDefs = [
+  { field: "name",  headerName:"이름",sortable:true},
+  { field: "alias", headerName:"별명",sortable:true,cellStyle: {textAlign: "left"}},
+  { field: "strong", headerName:"장점",cellStyle: {textAlign: "left"}},
+  { field: "weak", headerName:"단점",cellStyle: {textAlign: "left"}},
+  { field: "birth", headerName:"생일",cellRenderer:MyComp}
+];
+
+// 일단 빈 데이터 설정(초기값), 설정 안하면 주구창창 로딩중 메세지
+const rowData = [];  
+
+// 설정 옵션: 중요, 위에 정의한 것들이 여기서 통합됨에 주목
+const gridOptions = {
+  columnDefs: columnDefs,
+  rowData: rowData,
+  defaultColDef: {
+    flex:1,       // 자동으로 같은 사이즈롱
+    filter:true,
+    resizable:true,
+    minWidth:100,
+    headerClass: "centered"
+
+  },
+  // 페이지 설정
+  pagination:true,
+  //paginationAutoPageSize:true,
+  paginationPageSize:5,    // 같이 설정하니 위에 꺼 우선순위
+  onCellClicked: params => {
+    console.log('cell was clicked',params);
+    //alert("클릭하신 값은: " + params.value); //요게 있음 뭔가? 방해됨
+  }
+};
+
+function getData(){
+    var xhr = new XMLHttpRequest();
+    xhr.open("get","dummyData.json",true);
+    xhr.onreadystatechange = function(){
+        if(xhr.readyState == 4 && xhr.status == 200){
+            // 데이타 구조 억지 땜빵!
+            let rslt = JSON.parse(xhr.responseText);
+            for(let i=0; i< rslt.length; i++){
+                rslt[i].birth = ranDate();
+            }
+
+            gridOptions.api.setRowData(rslt);
+        }
+    }
+    xhr.send();
+}
+
+// csv 내보내기, 별로 안 중요, 그냥 이대로 설정하고 값만 고치면 됨
+function fExp(){
+    var v_params = {
+        suppressQuotes: "true",                 // none, true
+        columnSeparator: "   ",                 // default값이 ,
+        customHeader: "이름 별명 장점 단점",    // 헤더명 추가 출력
+        customFooter: "이거슨 푸터"             // 데이타 아래에 footer추가
+    };
+    gridOptions.api.exportDataAsCsv(v_params);
+}
+
+// 그리드 셋업
+document.addEventListener('DOMContentLoaded', () => {
+  const gridDiv = document.querySelector('#myGrid');
+  new agGrid.Grid(gridDiv, gridOptions);
+  getData();  // 데이터 불러오깅
+}); 
+
+
+
+// AG-GRID 문서에 나오는 커스텀 Cell Renderer
+function MyComp() {
+    return this;
+}
+
+MyComp.prototype.init = function(params) {
+        this.eGui = document.createElement('div');
+        this.eGui.innerHTML = `
+            <input type="date" value="" class="myCal" style="border:0px;width:0px"> 
+            <span class="mySpan">${params.value}</span> 
+        `;
+        
+        this.myCal = this.eGui.querySelector('.myCal')
+        this.mySpan = this.eGui.querySelector('.mySpan')
+        this.mySpan.onclick = () => {
+            this.myCal.showPicker();
+        }
+        this.myCal.onchange = ()=> {
+            console.log("check",this.myCal.value);
+            this.mySpan.innerHTML = this.myCal.value;
+        }
+}
+MyComp.prototype.getGui=function(){
+    console.log("check1");
+    return this.eGui;
+}
+
+MyComp.prototype.refresh=function(){
+    console.log("check2");
+    return true;
+    
+}
+
+MyComp.prototype.destroy=function(){
+    console.log("check3");
+} 
+
+function ranDate(){
+    let now = new Date();
+    now.setDate(now.getDate() - Math.floor(Math.random()*90));
+
+    let rYear = now.getFullYear();
+
+    let rMonth = now.getMonth() + 1;
+    if(rMonth < 10) rMonth = "0" + rMonth;
+
+    let rDate = now.getDate();
+    if(rDate < 10) rDate = "0" + rDate;
+
+    return `${rYear}-${rMonth}-${rDate}`;
+}
+</script>
+</body>
+</html>

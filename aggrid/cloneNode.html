@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+    .card{
+        border: 5px groove yellowgreen;
+        width: 150px;
+        height: 100px;
+    }
+</style>
+</head>
+<body>
+    <!--clone Node-->
+    <div class="card">
+        <div name>로제</div>
+        <div age>27</div>
+        <div song>gone</div>
+    </div>
+    <script>
+        var card = document.querySelector(".card");
+        //var jenni = card.cloneNode(); //복사, 얇은(s복사
+        var jenni = card.cloneNode(true); //복사, 깊은복사
+        jenni.querySelector("[name]").innerHTML = "제니"; //복사 후 필요한 부분만 봐꾸기
+        jenni.querySelector("[age]").innerHTML = "26";
+        jenni.querySelector("[song]").innerHTML = "die";
+        document.body.appendChild(jenni); 
+    </script>
+</body>
+</html>

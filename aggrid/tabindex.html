@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #disp{
+            width: 200px;
+            height: 200px;
+            background-color: black;
+            color: yellow;
+            font-size: 3em;
+        }
+    </style>
+</head>
+<body>
+    <!-- tabindex tab키로 이동하는 포커스 순서를 변경한다.-->
+    이름 <input type="text" value="" tabindex="1" autofocus> <br>
+    나이 <input type="text" value="" tabindex="5"> <br>
+    주소 <input type="text" value="" tabindex="3"> <br>
+    전번 <input type="text" value="" tabindex="2"> <br>
+    가족 <input type="text" value="" tabindex="-4"> <br> <!-- 음수를 주면 탭 포커스 건너뛰기-->
+    <!-- div는 focus를 받도록 만들어지지 않았음, focus 받을 수 없는 건 키보드 이벤트 안먹음-->
+    <!--tabindex=0를 주면 focus를 받을 수 있음-->
+    <div id="disp" tabindex="0" contenteditable onkeydown="fCheck(this)">
+        키보드 이벤트
+    </div>
+<script>
+    function fCheck(pThis){
+        //alert(event.keyCode+pThis);
+    }
+</script>
+</body>
+</html>

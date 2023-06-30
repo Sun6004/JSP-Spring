@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ag-Grid Basic Example</title>
+<script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
+</head>
+<body>
+    <div id="myGrid" style="height: 500px; width:700px;" class="ag-theme-alpine"></div>
+<script>
+const columnDefs = [
+  { field: "make",  headerName:"메이커", },
+  { field: "model", headerName:"모델",},
+  { field: "price", headerName:"가격", checkboxSelection:true}
+];
+
+// 데이타 정의
+const rowData = [
+  { make: "Toyota", model: "Celica", price: 35000 },
+  { make: "Ford", model: "Mondeo", price: 32000 },
+  { make: "Porsche", model: "Boxster", price: 72000 },
+  { make: "BMW", model: "M5", price: 68000 },
+];
+
+// 설정 옵션: 중요, 위에 정의한 것들이 여기서 통합됨에 주목
+
+//모든 컬럼이 가져야되는 속성은 여기에
+const gridOptions = {
+    columnDefs: columnDefs,
+    rowData: rowData,
+    defaultColDef: {
+    sortable:true,
+    filter:true,
+    resizable:true,
+    minWidth:100
+  }
+};
+
+// 그리드 셋업
+document.addEventListener('DOMContentLoaded', () => {
+  const gridDiv = document.querySelector('#myGrid');
+  new agGrid.Grid(gridDiv, gridOptions);
+});    
+</script>
+</body>
+</html>

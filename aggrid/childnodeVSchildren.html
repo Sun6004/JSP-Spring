@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="disp">
+
+        <h2>낼은 안토요일</h2>
+    </div>
+    <script>
+        // childNode는 안 쓰는 것이 아주유이! children사용 권장
+        // children은 무조건 element 타입(태그)만 가져옴
+        const disp = document.querySelector('#disp');
+        console.log(0,disp.childNodes[0]);
+        console.log(0,disp.children[0]); // 변하지 않음(요걸써야 안정)
+    </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<!-- ES6 이상에서 추가 된 것들
+    백틱(템플릿스트링), spread operator(...),구조 분해(Destructuring ), arrow function(화살표 함수), Promise, async await
+-->
+<script>
+    /* var arr1 = [1,2,3,4];
+    //var arr2 = [...arr1];
+    let arr2 = [];
+    let arr3;
+    for(let i=0; i<=20; i++){
+        arr2 = [...arr2, i]; //배열에 값 추가
+        arr3 = [...arr1, ...arr2]; //배열 합치기
+    }
+    alert(arr3); */
+
+/*  최신꺼라고 무조건 쓰는 사람은 나쁨(조건부로 사용해야 함)
+    function fck(kkk,...pArgs){
+        alert("별도: " +kkk);
+        for(let i=0; i<pArgs.length; i++){
+            alert(pArgs[i]);
+        }
+    }
+
+    fck("asd","zxc","qwe","123"); */
+
+    //구조 분해
+    var asd = {
+        name: "asd",
+        state: "zxc",
+        age: 22,
+        special:"?"
+    }
+
+    //var vName = asd.name; 원래방식
+    /* var {name,age} = asd;
+    alert(name + "(" + age+")");
+ */
+    var testArr = ["asd","zxc","qwe","kkk"];
+    var [,a,,,] = testArr;
+    alert(a); // zxc
+</script>
