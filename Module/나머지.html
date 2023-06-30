@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script>
+    // 화살표 함수(Arrow Function)
+    // 별거없음 function 키워드를 하도 많이 쓰니 줄여쓰기임
+    // 주의사항: this 제어가 골치아플때는 머리쓰지말고 그냥 function 키워드 쓸것
+    // this 기본은 무조건 한단계 위 상위객체를 가르킨다고 되어있음.
+    // 매개변수가 1개일 때 ()를 생략할 수 있음.
+    // {}안에 1개의 return문만 있을 때 {}와 return을 생략할 수 있음!
+
+    var fCheck = (pArg) => "안녕" + pArg; //이 스타일이 아주 많이 쓰임(눈에 익힐 것){ return "안녕" + pArg; }
+    
+    // 이놈을 화살표 함수로 고쳐보시오
+    var fTest = function(arg){
+        return function(arg){
+            return function(arg){
+                return arg + "ㅗ";
+            }
+        }
+    }
+
+    var fTest2 = arg => arg => arg => arg + "안녕"; 
+
+    alert(fTest2("zzz"));
+    //alert(fCheck("assad"));
+
+</script>

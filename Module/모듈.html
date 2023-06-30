@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script type="module" src="./firstModule.js">
+import hjh from './firstModule.js';
+hjh();
+var asd = "asd";
+// module이 아닌놈이랑 소통안함
+// module 사이에 값을 궂이 넘기려면 최상위 window를 이용해야 함!
+window.zxc = "zxc";
+
+/* module에는 2가지가 있는데 commonJS와 esm
+    commonJS는 자바스크립트 커뮤니티이름으로 require 명령문 사용을 제안
+    esm은 공식모듈로 import 명령문 도입, 향후 이것으로 통일!
+    브라우저에서는 import문 사용가능! import(수입) export(수출)는 짝꿍
+*/
+</script>
+<!--모듈끼리 소통할때 type="module"-->
+<script type="module">
+    alert(zxc+"!");
+</script>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<script>
+    // Promise는 중요한데, 다행히 개발자가 직접 Promise를 만들일은 거의 없고
+    // 라이브러리 만드는 회사들이 만들고, 개발자는 잘 사용하기만 하면 됨.
+    // 원래 블루버드라는 회사가 비동기 처리할 때 콜백을 많이 사용하다 보니
+    // 콜백 안에 콜백 안에 콜백식으로 프로그램이 짜여지는 것을 보고
+    // Hell of Callback이라 부르고 그것의 해결책으로 내어 놓은 걸, 자바스크립트 언어 개발팀에서 받아들임!
+
+/*  기본 사용법   
+    var MyPromise = function(){
+        return new Promise((resolve,reject)=>{ //(res, rej)등으로 줄여써도됨
+            // 약속이 잘 실행되었을 때 resolve 함수 호출
+            // 약속이 깨졌을 때 reject 함수 호출
+            //resolve("success");
+            reject("ㅗ");
+        });
+    } */
+
+    const axios = {}; //네임스페이스용 객체
+
+    axios.get = function(pURL){ //메서드
+        return new Promise((res,rej)=>{
+            // 비동기를 위해 ajax
+            var xhr = new XMLHttpRequest();
+            xhr.open("get",pURL, "dummyData.json", true);
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState ==4 && xhr.status ==200){
+                    res(JSON.parse(xhr.responseText));
+                }
+            }
+            xhr.onerror = function(){
+                rej(new Error("에러발생"));
+            }
+            xhr.send();
+        })
+    }
+
+    var MyPromise = function(){
+        return new Promise((res,rej)=>{
+            // 비동기를 위해 ajax
+            var xhr = new XMLHttpRequest();
+            xhr.open("get", "dummyData.json", true);
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState ==4 && xhr.status ==200){
+                    res(JSON.parse(xhr.responseText));
+                }
+            }
+            xhr.onerror = function(){
+                rej(new Error("에러발생"));
+            }
+            xhr.send();
+        })
+    }
+
+    // Promise 사용 패턴
+    var rsltPromise = axios.get("dummyData.json");
+
+    rsltPromise.then((rslt)=>{
+        console.log("결과: ", rslt);
+    }).catch((error)=>{
+        console.log(error);
+    }).finally(()=>{
+        console.log("예는 있는데 잘 안씀");
+    })
+</script>
